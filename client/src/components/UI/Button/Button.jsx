@@ -6,6 +6,7 @@ function Button({
   size = 'normal',
   url,
   block,
+  disabled,
   onClick = () => {},
   ...props
 }) {
@@ -14,7 +15,8 @@ function Button({
     return (
       <a
         {...props}
-        className={`${styles.button} ${styles[type]} ${styles[size]}`}
+        className={`${styles.button} ${styles[type]} 
+        ${styles[size]} ${disabled ? `${styles.disabled}` : ``}`}
         href={url}
       >
         {text}
@@ -28,6 +30,7 @@ function Button({
       onClick={onClick}
       className={`${styles.button} ${styles[type]} ${styles[size]}
       ${block ? `${styles.block}` : ``}`}
+      disabled={!!disabled}
       {...props}
     >
       {text}
