@@ -17,7 +17,6 @@ function Input({
 
   return (
     <form className={styles.container} onSubmit={onSubmitHandler}>
-      {/* SEARCH */}
       {leftIcon && (
         <div className={`${styles.icon} ${styles.left}`}>{leftIcon}</div>
       )}

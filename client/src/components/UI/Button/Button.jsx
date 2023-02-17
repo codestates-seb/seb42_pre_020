@@ -14,10 +14,10 @@ function Button({
   if (url) {
     return (
       <a
-        {...props}
         className={`${styles.button} ${styles[type]} 
-        ${styles[size]} ${disabled ? `${styles.disabled}` : ``}`}
+      ${styles[size]} ${disabled ? `${styles.disabled}` : ``}`}
         href={url}
+        {...props}
       >
         {text}
       </a>
