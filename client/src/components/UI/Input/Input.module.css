@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--black-400);
+  margin-left: calc(1rem - 0.75rem);
+}
+.input {
+  flex: 1 1 0;
+  padding: 0.6rem 0.7rem;
+  padding-left: 2rem;
+  border: 1px solid var(--black-200);
+  border-radius: 2px;
+  outline: none;
+  font-size: 13px;
+  height: 2rem;
+}
+.input:focus {
+  border-color: var(--blue-300);
+  box-shadow: var(--wrapped-shadow);
+}
+.large {
+  height: 2.25rem;
+}
