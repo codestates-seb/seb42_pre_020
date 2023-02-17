@@ -30,6 +30,11 @@
   font-weight: 700;
 }
 
+.block {
+  width: 100%;
+  display: block;
+}
+
 /* BLUE */
 .blue {
   background-color: var(--button-blue);
