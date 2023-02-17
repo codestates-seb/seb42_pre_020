@@ -20,9 +20,11 @@
   --red-500: hsl(358, 62%, 52%);
   --red-600: hsl(358, 62%, 47%);
   --powder-100: hsl(205, 46%, 92%);
+  --powder-200: hsl(205, 53%, 88%);
   --powder-300: hsl(205, 57%, 81%);
   --powder-500: hsl(205, 41%, 63%);
   --powder-700: hsl(205, 47%, 42%);
+  --powder-800: hsl(205, 46%, 32%);
 
   /* button */
   --button-blue: var(--blue-500);
@@ -38,4 +40,10 @@
   --button-border-bg: var(--powder-100);
   --button-border-hover: var(--powder-300);
   --button-border-text: var(--powder-700);
+
+  /* tag */
+  --tag-text: var(--powder-700);
+  --tag-text-hover: var(--powder-800);
+  --tag-bg: var(--powder-100);
+  --tag-bg-hover: var(--powder-200);
 }
