@@ -6,4 +6,36 @@
 
 /* 색상 정의 */
 :root {
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(210, 8%, 5%);
+  --orange-050: hsl(27, 100%, 97%);
+  --orange-400: hsl(27, 90%, 55%);
+  --orange-500: hsl(27, 90%, 50%);
+  --orange-600: hsl(27, 90%, 45%);
+  --blue-050: hsl(206, 100%, 97%);
+  --blue-500: hsl(206, 100%, 52%);
+  --blue-600: hsl(206, 100%, 40%);
+  --red-050: hsl(358, 75%, 97%);
+  --red-400: hsl(358, 68%, 59%);
+  --red-500: hsl(358, 62%, 52%);
+  --red-600: hsl(358, 62%, 47%);
+  --powder-100: hsl(205, 46%, 92%);
+  --powder-300: hsl(205, 57%, 81%);
+  --powder-500: hsl(205, 41%, 63%);
+  --powder-700: hsl(205, 47%, 42%);
+
+  /* button */
+  --button-blue: var(--blue-500);
+  --button-blue-hover: var(--blue-600);
+
+  --button-red: var(--red-500);
+  --button-red-hover: var(--red-600);
+
+  --button-orange: var(--orange-500);
+  --button-orange-hover: var(--orange-600);
+
+  --button-border: var(--powder-500);
+  --button-border-bg: var(--powder-100);
+  --button-border-hover: var(--powder-300);
+  --button-border-text: var(--powder-700);
 }
