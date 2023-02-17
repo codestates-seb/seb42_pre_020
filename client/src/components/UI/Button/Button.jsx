@@ -1,8 +1,33 @@
 import styles from './Button.module.css';
 
-function Button({ type = 'blue', text, size = 'normal', href }) {
+function Button({
+  type = 'blue',
+  text = '',
+  size = 'normal',
+  url,
+  onClick = () => {},
+  ...props
+}) {
+  // A tag
+  if (url) {
+    return (
+      <a
+        {...props}
+        className={`${styles.button} ${styles[type]} ${styles[size]}`}
+        href={url}
+      >
+        {text}
+      </a>
+    );
+  }
+
+  // Button tag
   return (
-    <button className={`${styles.button} ${styles[type]} ${styles[size]} `}>
+    <button
+      onClick={onClick}
+      className={`${styles.button} ${styles[type]} ${styles[size]} `}
+      {...props}
+    >
       {text}
     </button>
   );
