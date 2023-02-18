@@ -3,6 +3,7 @@
   height: calc(100vh - 50px);
   padding-top: 1.5rem;
   padding-right: 0.5rem;
+  padding-left: 0.5rem;
   flex-shrink: 0;
   border-right: 1px solid var(--black-075);
   display: flex;
