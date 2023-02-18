@@ -1,0 +1,12 @@
+.proflie {
+  display: inline-block;
+}
+.proflie:hover {
+  background-color: var(--black-075);
+}
+.profile_img {
+  height: 24px;
+  width: 24px;
+  overflow: hidden;
+  margin: 0.5rem;
+}
