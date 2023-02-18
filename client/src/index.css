@@ -92,6 +92,9 @@
   --red-800: hsl(358, 64%, 35%);
   --red-900: hsl(358, 67%, 29%);
 
+  /* Font */
+  --font-main: var(--black-800);
+
   /* button */
   --button-blue: var(--blue-500);
   --button-blue-hover: var(--blue-600);
@@ -130,4 +133,8 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--orange-400);
+}
+
+body {
+  color: var(--font-main);
 }
