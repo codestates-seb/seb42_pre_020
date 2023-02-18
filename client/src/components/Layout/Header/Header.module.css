@@ -1,9 +1,45 @@
+.container {
+  width: 100%;
+  padding: 0 1rem;
+  background-color: var(--black-025);
+}
 .header {
+  margin: 0 auto;
   height: 50px;
+  max-width: 1264px;
+  display: flex;
+  align-items: center;
+}
+.header form {
+  flex: 1 1 0;
+}
+.logo_container {
+  width: 150px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo_container:hover {
+  background-color: var(--black-075);
+}
+.logo {
+  width: 150px;
+  height: 30px;
+  background-image: url('../../../assets/images/sprites.svg');
+  background-position: 0 -500px;
+  display: inline-block;
+  text-indent: -9999em;
+}
+.nav {
+  list-style: none;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
 }
 .sub_nav {
+  margin-right: 0.5rem;
 }
 .main_nav {
-}
-.buttons {
+  margin-left: 0.5rem;
 }
