@@ -31,15 +31,3 @@
   display: inline-block;
   text-indent: -9999em;
 }
-.nav {
-  list-style: none;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-}
-.sub_nav {
-  margin-right: 0.5rem;
-}
-.main_nav {
-  margin-left: 0.5rem;
-}

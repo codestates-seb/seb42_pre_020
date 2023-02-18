@@ -5,7 +5,7 @@ import styles from './MainNav.module.css';
 function MainNav({ isLogin }) {
   if (isLogin) {
     return (
-      <>
+      <ul className={`${styles.nav} ${styles.main_nav}`}>
         <li>
           <a href="/" className={styles.proflie}>
             <img
@@ -21,19 +21,19 @@ function MainNav({ isLogin }) {
         <li>
           <Button color="red" text="Log Out" size="small" />
         </li>
-      </>
+      </ul>
     );
   }
 
   return (
-    <>
+    <ul className={styles.main_nav}>
       <li>
         <Button text="Log In" size="small" color="border" url="/" />
       </li>
       <li>
         <Button text="Sign up" size="small" url="/" />
       </li>
-    </>
+    </ul>
   );
 }
 

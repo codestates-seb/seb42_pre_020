@@ -7,12 +7,6 @@ import MainNav from './MainNav/MainNav';
 import styles from './Header.module.css';
 
 function Header() {
-  const subName = [
-    { url: '/', text: 'About' },
-    { url: '/', text: 'Products' },
-    { url: '/', text: 'For Teams' },
-  ];
-
   return (
     <header className={styles.container}>
       <div className={styles.header}>
@@ -21,17 +15,11 @@ function Header() {
           <span className={styles.logo}>StackOverflow</span>
         </a>
         {/* LIST */}
-        <ul className={`${styles.nav} ${styles['sub_nav']}`}>
-          {subName.map((sub) => (
-            <SubNavList key={sub.text} {...sub} />
-          ))}
-        </ul>
+        <SubNavList text="About" url="/" />
         {/* SEARCH */}
         <Input placeholder={'Search...'} isValid leftIcon={<BiSearch />} />
         {/* NAV */}
-        <ul className={`${styles.nav} ${styles['main_nav']}`}>
-          <MainNav isLogin />
-        </ul>
+        <MainNav />
       </div>
     </header>
   );

@@ -1,3 +1,11 @@
+.sub_nav {
+  margin-right: 0.5rem;
+  list-style: none;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
 .list {
   cursor: pointer;
   margin-left: 0.5rem;
