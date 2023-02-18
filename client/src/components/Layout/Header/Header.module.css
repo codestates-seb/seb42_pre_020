@@ -2,6 +2,8 @@
   width: 100%;
   padding: 0 1rem;
   background-color: var(--black-025);
+  position: fixed;
+  z-index: 10;
 }
 .header {
   margin: 0 auto;
