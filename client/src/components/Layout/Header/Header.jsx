@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 
 import Input from '../../UI/Input/Input';
@@ -7,6 +8,17 @@ import MainNav from './MainNav/MainNav';
 import styles from './Header.module.css';
 
 function Header() {
+  const [query, setQuery] = useState('');
+
+  const onChangeHandler = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const onSubmitHandler = (e) => {
+    console.log('검색');
+    e.preventDefault();
+  };
+
   return (
     <header className={styles.container}>
       <div className={styles.header}>
@@ -17,8 +29,14 @@ function Header() {
         {/* LIST */}
         <SubNavList text="About" url="/" />
         {/* SEARCH */}
-        <form>
-          <Input placeholder={'Search...'} isValid leftIcon={<BiSearch />} />
+        <form onSubmit={onSubmitHandler}>
+          <Input
+            placeholder={'Search...'}
+            isValid
+            value={query}
+            leftIcon={<BiSearch />}
+            onChange={onChangeHandler}
+          />
         </form>
         {/* NAV */}
         <MainNav />
