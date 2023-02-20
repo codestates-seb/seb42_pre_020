@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/seb42_pre_020.iml" filepath="$PROJECT_DIR$/.idea/seb42_pre_020.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/sof.main.iml" filepath="$PROJECT_DIR$/.idea/modules/sof.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sof.test.iml" filepath="$PROJECT_DIR$/.idea/modules/sof.test.iml" />
     </modules>
   </component>
 </project>

@@ -77,11 +77,17 @@ public class UserService {
     //로그인 시 ID 존재여부 확인 후 예외처리
     public UserEntity findByEmail(String email) {
         Optional<UserEntity> findUser = this.userRepository.findByEmail(email);
-        if (findUser.isPresent()) {
+        if(findUser.isPresent()) {
             return findUser.get();
         } else {
             throw new DataNotFoundException("사용자를 찾을 수 없습니다!");
         }
+    }
+
+    public UserEntity findByEmailCreate(String email) {
+        Optional<UserEntity> findUser = this.userRepository.findByEmail(email);
+        if(findUser.isPresent()) { return findUser.get(); }
+        else return null;
     }
 
     //액세스 토큰으로 사용자 찾기

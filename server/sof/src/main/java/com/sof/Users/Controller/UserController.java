@@ -26,7 +26,7 @@ public class UserController {
         this.userService = userService;
         this.mapper = mapper;
     }
-B
+
     @GetMapping("/get")
     public ResponseEntity get(@Validated @RequestBody String accessToken) {
         UserEntity user = userService.findByAccessToken(accessToken);
