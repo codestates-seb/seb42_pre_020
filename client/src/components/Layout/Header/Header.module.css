@@ -33,3 +33,15 @@
   display: inline-block;
   text-indent: -9999em;
 }
+
+/* MEDIA QUERY */
+
+@media (max-width: 768px) {
+  .logo_container {
+    width: 45px;
+  }
+  .logo {
+    width: 25px;
+    background-position: 0 -500px;
+  }
+}
