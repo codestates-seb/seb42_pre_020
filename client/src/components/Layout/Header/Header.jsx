@@ -17,7 +17,9 @@ function Header() {
         {/* LIST */}
         <SubNavList text="About" url="/" />
         {/* SEARCH */}
-        <Input placeholder={'Search...'} isValid leftIcon={<BiSearch />} />
+        <form>
+          <Input placeholder={'Search...'} isValid leftIcon={<BiSearch />} />
+        </form>
         {/* NAV */}
         <MainNav />
       </div>
