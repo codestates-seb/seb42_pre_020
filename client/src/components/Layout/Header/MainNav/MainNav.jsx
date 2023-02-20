@@ -19,7 +19,7 @@ function MainNav({ isLogin }) {
           </a>
         </li>
         <li>
-          <Button color="red" text="Log Out" size="small" />
+          <Button color="red" text="Log Out" size="small" url="/" />
         </li>
       </ul>
     );
@@ -28,7 +28,7 @@ function MainNav({ isLogin }) {
   return (
     <ul className={styles.main_nav}>
       <li>
-        <Button text="Log In" size="small" color="border" url="/" />
+        <Button text="Log In" size="small" color="border" url="/login" />
       </li>
       <li>
         <Button text="Sign up" size="small" url="/" />

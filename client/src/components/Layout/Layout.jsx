@@ -12,7 +12,6 @@ function Layout() {
       <div className={styles.container}>
         <Sidebar />
         <main className={styles.main}>
-          <h2>메인메인메인메인메인</h2>
           <Outlet />
         </main>
       </div>
