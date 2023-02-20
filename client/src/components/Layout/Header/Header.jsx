@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
 
@@ -23,11 +24,11 @@ function Header() {
     <header className={styles.container}>
       <div className={styles.header}>
         {/* LOGO */}
-        <a className={styles.logo_container} href="/">
+        <Link className={styles.logo_container} to="/">
           <span className={styles.logo}>StackOverflow</span>
-        </a>
+        </Link>
         {/* LIST */}
-        <SubNavList text="About" url="/" />
+        <SubNavList text="About" url="/about" />
         {/* SEARCH */}
         <form onSubmit={onSubmitHandler}>
           <Input

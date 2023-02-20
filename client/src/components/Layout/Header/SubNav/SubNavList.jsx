@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom';
+
 import styles from './SubNavList.module.css';
 
 function SubNavList({ text, url }) {
   return (
     <ul className={styles.sub_nav}>
       <li className={styles.list}>
-        <a href={url} className={styles.link}>
+        <Link to={url} className={styles.link}>
           {text}
-        </a>
+        </Link>
       </li>
     </ul>
   );

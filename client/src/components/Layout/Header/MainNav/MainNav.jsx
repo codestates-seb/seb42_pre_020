@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import Button from '../../../UI/Button/Button';
 
 import styles from './MainNav.module.css';
@@ -7,7 +9,7 @@ function MainNav({ isLogin }) {
     return (
       <ul className={`${styles.nav} ${styles.main_nav}`}>
         <li>
-          <a href="/" className={styles.proflie}>
+          <Link to="/" className={styles.proflie}>
             <img
               className={styles.profile_img}
               // 임시 이미지 URL
@@ -16,7 +18,7 @@ function MainNav({ isLogin }) {
               }
               alt="profile"
             />
-          </a>
+          </Link>
         </li>
         <li>
           <Button color="red" text="Log Out" size="small" url="/" />
@@ -31,7 +33,7 @@ function MainNav({ isLogin }) {
         <Button text="Log In" size="small" color="border" url="/login" />
       </li>
       <li>
-        <Button text="Sign up" size="small" url="/" />
+        <Button text="Sign up" size="small" url="/signup" />
       </li>
     </ul>
   );
