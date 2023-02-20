@@ -5,18 +5,18 @@ function Input({
   size,
   value = '',
   onChange = () => {},
-  onSubmit = () => {},
+  onPressEnterKey = () => {},
   isValid,
   leftIcon,
   rightIcon,
 }) {
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-    onSubmit();
+  const keydownHandler = (e) => {
+    if (e.key === 'Enter') {
+      onPressEnterKey(value);
+    }
   };
-
   return (
-    <form className={styles.container} onSubmit={onSubmitHandler}>
+    <div className={styles.container}>
       {leftIcon && (
         <div className={`${styles.icon} ${styles.left}`}>{leftIcon}</div>
       )}
@@ -27,12 +27,13 @@ function Input({
         type={'text'}
         placeholder={placeholder}
         onChange={onChange}
+        onKeyDown={keydownHandler}
         value={value}
       />
       {rightIcon && (
         <div className={`${styles.icon} ${styles.right}`}>{rightIcon}</div>
       )}
-    </form>
+    </div>
   );
 }
 
