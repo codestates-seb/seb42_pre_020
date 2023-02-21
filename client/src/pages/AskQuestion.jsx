@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
 import AddTitle from '../components/Questions/AddTitle'
-import Side from '../components/Questions/Side'
+import AddBody from '../components/Questions/AddBody'
 import AddTag from '../components/Questions/AddTag'
-import Button from '../components/UI/Button/Button'
+import AddButton from '../components/Questions/AddButton'
 import styles from './AskQuestion.module.css'
+
+
 
 
 const BLUEBOX_CONTENT = `You're ready to ask a programming-related question and this form will help guide you through
@@ -19,24 +21,32 @@ const TagGuide = 'Add up to 5 tags to describe what your question is about. Star
 
 
 function AskQuestion() {
-  const [title, setTitle] =useState('')
-  const [tag, setTag] =useState([])
-  
+
+  const [title, setTitle] = useState('')
+  const [tag, setTag] = useState('')
+  const [body, setBody] = useState('') 
+
   const titleHandler = (e) => {
     setTitle(e.target.value)
+  }
+
+  const bodyHandler = (e) => {
+    setBody(e.target.value)
   }
 
   const tagHandler = (e) => {
     setTag(e.target.value)
   }
+    
 
-  const submitHandler = () => {
-    fetch('https://koreanjson.com/users', {
+
+  const clickHandler = (e) => {
+    e.preventDefault()
+    const inputs = {title, body, tag}
+    fetch('url', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({  }),
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ inputs }),
     })
       .then((response) => response.json())
       .then((json) => console.log(json))
@@ -46,11 +56,11 @@ function AskQuestion() {
   
   return (
     <main className={styles.container}>
-      <section className={styles.first_section}>
-        <h1 className={styles.title}>
+      <section className={styles.section}>
+        <h1 className={styles.section_title}>
           Ask a public question
         </h1>
-        <div className={styles.bluebox}>
+        <div className={styles.section_bluebox}>
           <h2 className={styles.bluebox_title}>
             Writing a good question
           </h2>
@@ -69,20 +79,23 @@ function AskQuestion() {
           </ul>
       </div>
       </section>
-      <section className={styles.second_section}>
-        <div className={styles.AddTitle}>
-          <AddTitle onSubmit={titleHandler} title={title}/>
-        </div>
-        <div className={styles.AddTag}>
-          <AddTag onSubmit={tagHandler} tag={tag}/>
-        </div>
-        <div className={styles.Button}>
-          <Button text='AskQuestion' onClick={submitHandler}/>
-        </div>
-      </section>
+
+      <form >
+        <AddTitle titleHandler={titleHandler} title={title}/>
+        <AddBody body={body} bodyHandler={bodyHandler}/>
+        <AddTag tagHandler={tagHandler} tag={tag} />
+        <AddButton text='Ask Question' onClick={clickHandler} />
+      </form>
     </main>
   )
 }
+
+
+
+
+
+
+
 
 export default AskQuestion
 

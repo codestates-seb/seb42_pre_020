@@ -1,6 +1,6 @@
-// import React from 'react'
+
 import React,{useState, useEffect} from 'react'
-import styles from './QuestionList.module.css'
+
 function QuestionList() {
   const [questions, setQuestions] = useState(null)
 
@@ -16,7 +16,7 @@ function QuestionList() {
   
   
   return (
-    <div className={styles.QuestionList}>
+    <div>
       {
         questions.map((quest) => (
           <div key={quest.id}>

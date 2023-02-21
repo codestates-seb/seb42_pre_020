@@ -1,17 +1,18 @@
 import React, {useState} from 'react'
 import Input from '../UI/Input/Input'
-
+import styles from '../../pages/AskQuestion.module.css'
 const GUIDE = 'Add up to 5 tags to describe what your question is about. Start typing to see suggestions.'
 
-function AddTag({tag, onSubmit}) {
+function AddTag({tag, tagHandler, enter}) {
   return (
-    <div>
+    <div className={styles.AddTag}>
       <h3>Tag</h3>
       <h5>{GUIDE}</h5>
       <Input 
         placeholder='Write Tag'  
-        value={tag} 
-        onChange={onSubmit} 
+        value={tag}
+        onChange={tagHandler}
+        onPressEnterKey={enter} 
       />
     </div>
   )

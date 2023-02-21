@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Input from '../UI/Input/Input'
-import styles from './AddTitle.module.css'
+import styles from '../../pages/AskQuestion.module.css'
 
 const GUIDE = 'Be specific and imagine you’re asking a question to another person.'
 
@@ -8,27 +8,17 @@ const GUIDE = 'Be specific and imagine you’re asking a question to another per
 //그리고 Input에 props로 onSubmit내려주는 건가??
 const SubmitHandler =() => {}
 
-function AddTitle({onSubmit, title}) {
-  // const [content, setContent] = useState('')
+function AddTitle({titleHandler, title}) {
 
-  // const inputHandler = (e) => {
-  //   setContent(e.target.value)
-  // }
 
   return (
-      <div>
+      <div className={styles.AddTitle}>
         <h3>Title</h3>
         <h5>{GUIDE}</h5>
-        <Input placeholder='write title' value={title} onChange={onSubmit}  />
+        <Input placeholder='write title' value={title} onChange={titleHandler}  />
       </div>
   )
 }
 
 export default AddTitle
 
-    {/* <div className={styles.tag}>
-        <h3>Tag</h3>
-        <Input placeholder='write tag' onChange={tagHandler} value={tag} name='tag' />
-      </div> */}
-
-      // <Button text='Ask a question' onClick={onClick} />
