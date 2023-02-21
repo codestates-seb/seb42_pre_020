@@ -91,6 +91,8 @@
   --red-700: hsl(358, 64%, 41%);
   --red-800: hsl(358, 64%, 35%);
   --red-900: hsl(358, 67%, 29%);
+  --kakao: #fee500;
+  --kakao-hover: #ffd900;
 
   /* Font */
   --font-main: var(--black-800);
@@ -137,4 +139,6 @@
 
 body {
   color: var(--font-main);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI Adjusted',
+    'Segoe UI', 'Liberation Sans', sans-serif;
 }
