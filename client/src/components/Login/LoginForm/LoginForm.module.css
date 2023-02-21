@@ -4,6 +4,7 @@
   border-radius: 7px;
   background-color: var(--white);
   margin-top: 1.5rem;
+  width: 100%;
 }
 .form > div {
   margin-bottom: 1rem;
