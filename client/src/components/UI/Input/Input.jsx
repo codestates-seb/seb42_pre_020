@@ -9,6 +9,7 @@ function Input({
   isValid,
   leftIcon,
   rightIcon,
+  id,
 }) {
   const keydownHandler = (e) => {
     if (e.key === 'Enter') {
@@ -29,6 +30,7 @@ function Input({
         onChange={onChange}
         onKeyDown={keydownHandler}
         value={value}
+        id={id}
       />
       {rightIcon && (
         <div className={`${styles.icon} ${styles.right}`}>{rightIcon}</div>
