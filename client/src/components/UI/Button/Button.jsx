@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import styles from './Button.module.css';
 
 
@@ -14,14 +16,14 @@ function Button({
   // A tag
   if (url) {
     return (
-      <a
+      <Link
         className={`${styles.button} ${styles[color]} 
       ${styles[size]} ${disabled ? `${styles.disabled}` : ``}`}
-        href={url}
+        to={url}
         {...props}
       >
         {text}
-      </a>
+      </Link>
     );
   }
 
