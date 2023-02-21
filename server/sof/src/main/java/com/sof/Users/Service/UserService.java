@@ -74,20 +74,28 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
-    //로그인 시 ID 존재여부 확인 후 예외처리
+    //ID를 통한 사용자 여부 확인
+    public UserEntity find(Long id) {
+        Optional<UserEntity> findUser = this.userRepository.findById(id);
+
+        //해당 Id를 가진 사용자가 있다면 값 가져옴
+        if(findUser.isPresent()) { return findUser.get(); }
+        //사용자가 없다면 예외 출력
+        else { throw new DataNotFoundException("사용자를 찾을 수 없습니다!") }
+    }
+
+    //이메일을 통한 사용자 존재여부 확인
     public UserEntity findByEmail(String email) {
         Optional<UserEntity> findUser = this.userRepository.findByEmail(email);
-        if(findUser.isPresent()) {
-            return findUser.get();
-        } else {
-            throw new DataNotFoundException("사용자를 찾을 수 없습니다!");
-        }
+
+        if(findUser.isPresent()) { return findUser.get(); }
+        else { throw new DataNotFoundException("사용자를 찾을 수 없습니다!"); }
     }
 
     public UserEntity findByEmailCreate(String email) {
         Optional<UserEntity> findUser = this.userRepository.findByEmail(email);
         if(findUser.isPresent()) { return findUser.get(); }
-        else return null;
+        else { return null; }
     }
 
     //액세스 토큰으로 사용자 찾기
