@@ -1,5 +1,4 @@
 import { BiSearch } from 'react-icons/bi';
-import { useLocation } from 'react-router-dom';
 
 import Input from '../../UI/Input/Input';
 import Tags from './Tags/Tags';
@@ -7,8 +6,6 @@ import Tags from './Tags/Tags';
 import styles from './Sidebar.module.css';
 
 function Sidebar() {
-  const { pathname } = useLocation();
-
   // 임시 데이터
   const tags = [
     { text: 'react', url: '/' },
@@ -25,10 +22,6 @@ function Sidebar() {
     { text: 'C#', url: '/' },
     { text: '엄청 긴 내용의 태그가 들어간다면 어떻게 처리할껀가요?', url: '/' },
   ];
-
-  if (pathname === '/login' || pathname === '/signup') {
-    return <></>;
-  }
 
   return (
     <aside className={styles.sidebar}>
