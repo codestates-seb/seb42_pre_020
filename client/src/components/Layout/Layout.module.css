@@ -3,6 +3,7 @@
   margin: 0 auto;
   max-width: 1264px;
   padding-top: 50px;
+  justify-content: center;
 }
 
 .main {
