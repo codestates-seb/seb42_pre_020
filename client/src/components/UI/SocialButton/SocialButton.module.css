@@ -9,7 +9,6 @@
   color: var(--font-main);
   align-items: center;
   justify-content: center;
-  max-width: 17.5rem;
   font-family: inherit;
   margin-bottom: 0.5rem;
 }
