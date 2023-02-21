@@ -1,5 +1,6 @@
 .container {
   max-width: 17.5rem;
+  min-width: 16rem;
   margin: 0 auto;
   height: 100%;
   display: flex;

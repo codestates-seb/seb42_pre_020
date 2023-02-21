@@ -19,17 +19,19 @@ function Layout() {
   }, [pathname]);
 
   return (
-    <>
+    <div className={`${!hasSidebar ? `${styles.gray}` : ``}`}>
       <Headers />
-      <div
-        className={`${styles.container} ${!hasSidebar ? `${styles.gray}` : ``}`}
-      >
+      <div className={styles.container}>
         {hasSidebar && <Sidebar />}
-        <main className={styles.main}>
+        <main
+          className={`${styles.main} ${
+            !hasSidebar ? `${styles.full_width}` : ``
+          }`}
+        >
           <Outlet />
         </main>
       </div>
-    </>
+    </div>
   );
 }
 
