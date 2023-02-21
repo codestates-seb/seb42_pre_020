@@ -1,0 +1,48 @@
+.button {
+  width: 100%;
+  padding: 0.6rem;
+  display: flex;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid var(--black-200);
+  color: var(--font-main);
+  align-items: center;
+  justify-content: center;
+  max-width: 17.5rem;
+  font-family: inherit;
+  margin-bottom: 0.5rem;
+}
+.inversion {
+  color: var(--white);
+  border: 1px solid transparent;
+}
+.kakao {
+  background-color: var(--kakao);
+}
+.kakao:hover {
+  background-color: var(--kakao-hover);
+}
+.google {
+  background-color: var(--white);
+}
+.google:hover {
+  background-color: var(--black-025);
+}
+.gitHub {
+  background-color: var(--black-750);
+}
+.gitHub:hover {
+  background-color: var(--black-800);
+}
+.icon {
+  margin-right: 0.4rem;
+  height: 18px;
+  width: 18px;
+}
+.icon svg {
+  font-size: 18px;
+}
+.type {
+  text-transform: capitalize;
+}
