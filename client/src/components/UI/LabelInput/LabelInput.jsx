@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
+
 import Input from '../Input/Input';
+
 import styles from './LabelInput.module.css';
 
 function LabelInput({
@@ -10,6 +12,7 @@ function LabelInput({
   isValid,
   value,
   onChange,
+  description,
 }) {
   return (
     <div className={styles.container}>
@@ -30,6 +33,7 @@ function LabelInput({
         isValid={isValid}
         {...inputProps}
       />
+      {description && <div className={styles.description}>{description}</div>}
     </div>
   );
 }

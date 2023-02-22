@@ -18,3 +18,7 @@
 .link:hover {
   color: var(--blue-500);
 }
+.description {
+  font-size: 12px;
+  color: var(--black-500);
+}
