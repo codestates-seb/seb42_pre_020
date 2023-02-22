@@ -1,23 +1,24 @@
-.Edit_Pic {
+.Edit_image {
   display: flex;
   justify-content: center;
   position: relative;
-  width: 9rem;
-  height: 9rem;
+  width: 140px;
+  height: 140px;
   border: 1px solid var(--black-100);
   border-radius: 6px;
 }
 .user_image {
-  width: 9rem;
-  height: 9rem;
+  position: inherit;
+  width: 100%;
+  height: 100%;
   border-radius: 6px;
-  transition: 0.2s;
+  object-fit: cover;
 }
 .ChangePic_Btn {
   position: absolute;
-  width: 9rem;
-  height: 2rem;
-  top: 110px;
+  width: 140px;
+  height: 25px;
+  top: 114px;
   cursor: pointer;
   border: 1px solid var(--black-200);
   border-top: none;

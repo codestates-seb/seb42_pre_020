@@ -9,17 +9,19 @@
 .MyProfile_image {
   display: flex;
   justify-content: center;
-  position: relative;
-  width: 9rem;
-  height: 9rem;
+  width: 150px;
+  height: 150px;
   margin: 2rem 1.5rem 2rem 0.5rem;
+  padding: 3px;
   border-radius: 6px;
-  box-shadow: var(--black-150) 0px 2px 6px;
+  box-shadow: var(--black-300) 0px 2px 6px;
 }
 .user_image {
-  width: 9rem;
-  height: 9rem;
-  transition: 0.2s;
+  position: inherit;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
 }
 
 .MyProfile_info {
@@ -87,18 +89,6 @@
   .MyProfile_Container {
     flex-direction: column;
     margin: 0 1rem 2rem 1rem;
-  }
-  .MyProfile_image {
-    width: 8rem;
-    height: 8rem;
-    margin: 2rem 1rem 0.5rem 0;
-    border-radius: 6px;
-    box-shadow: var(--black-150) 0px 2px 6px;
-  }
-  .user_image {
-    width: 8rem;
-    height: 8rem;
-    transition: 0.2s;
   }
   .MyProfile_info {
     margin-top: 0.5rem;
