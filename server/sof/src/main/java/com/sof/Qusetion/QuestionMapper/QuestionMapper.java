@@ -21,6 +21,21 @@ public interface QuestionMapper {
         }
     }
 
+    default QuestionEntity questionPatchDtoToQuestion(QuestionDto.Patch patch)
+    {
+        if (patch == null)
+        {
+            return null;
+        }
+        else {
+            QuestionEntity question = new QuestionEntity();
+            question.setTitle(patch.getTitle());
+            question.setBody(patch.getBody());
+            question.setTags(patch.getTags());
+            return question;
+        }
+    }
+
     default QuestionDto.Response questionToQuestionResponse(QuestionEntity question)
     {
         QuestionDto.Response response = QuestionDto.Response

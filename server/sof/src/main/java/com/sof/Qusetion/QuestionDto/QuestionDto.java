@@ -26,6 +26,7 @@ public class QuestionDto {
     public static class Patch{
         private String title;
         private String body;
+        private List<String> tags;
         private String accessToken;
     }
 
