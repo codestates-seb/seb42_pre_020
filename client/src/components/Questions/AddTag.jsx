@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import Input from '../UI/Input/Input'
-import styles from '../../pages/AskQuestion.module.css'
+import styles from './AskQuestion.module.css'
 const GUIDE = 'Add up to 5 tags to describe what your question is about. Start typing to see suggestions.'
 
 function AddTag({tag, tagHandler, enter}) {
@@ -12,7 +12,8 @@ function AddTag({tag, tagHandler, enter}) {
         placeholder='Write Tag'  
         value={tag}
         onChange={tagHandler}
-        onPressEnterKey={enter} 
+        onPressEnterKey={enter}
+        isValid={true} 
       />
     </div>
   )

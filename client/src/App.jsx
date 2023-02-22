@@ -2,7 +2,9 @@ import { Route, Routes } from 'react-router';
 import Layout from './components/Layout/Layout';
 import AskQuestion from './pages/AskQuestion';
 import LoginPage from './pages/LoginPage';
+import MyQuestion from './pages/MyQuestion';
 import SignupPage from './pages/SignupPage';
+import TopQuestion from './pages/TopQuestion';
 
 function App() {
   return (
@@ -12,7 +14,9 @@ function App() {
           {/* 페이지 */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/make" element={<AskQuestion />} />
+          <Route path="/ask" element={<AskQuestion />} />
+          <Route path="/top" element={<TopQuestion />} />
+          <Route path="/my" element={<MyQuestion />} />
         </Route>
       </Routes>
     </>

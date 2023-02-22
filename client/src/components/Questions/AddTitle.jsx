@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Input from '../UI/Input/Input'
-import styles from '../../pages/AskQuestion.module.css'
+import styles from './/AskQuestion.module.css'
 
 const GUIDE = 'Be specific and imagine you’re asking a question to another person.'
 
@@ -15,7 +15,11 @@ function AddTitle({titleHandler, title}) {
       <div className={styles.AddTitle}>
         <h3>Title</h3>
         <h5>{GUIDE}</h5>
-        <Input placeholder='write title' value={title} onChange={titleHandler}  />
+        <Input 
+        placeholder='write title' 
+        value={title} 
+        onChange={titleHandler} 
+        isValid={true}  />
       </div>
   )
 }

@@ -1,34 +1,39 @@
+import {Link} from 'react-router-dom'
+import styles from './QuestionList.module.css'
 
-import React,{useState, useEffect} from 'react'
 
-function QuestionList() {
-  const [questions, setQuestions] = useState(null)
+function QuestionList({questions}) {
 
-  useEffect(() => {
-    fetch('url')
-      .then(res => {
-        return res.json()
-      })
-      .then(data => {
-        setQuestions(data)
-      })
-  },[])
-  
   
   return (
     <div>
       {
-        questions.map((quest) => (
-          <div key={quest.id}>
-            <h2>{quest.title}</h2>
-            <button><a href="%">{quest.tag}</a></button>
+        questions.map((question) => (
+          <div key={question.id} className={styles.container}>
+            <div className={styles.left}>
+              <span>votes</span><span>0</span>
+              <span>votes</span><span>0</span>
+              <span>votes</span><span>0</span>
+            </div>
+            <div className={styles.right}>
+              <h2 className={styles.right_title}>
+                <Link to='/my' href="url">{question.title}</Link>
+                </h2>
+              <div className={styles.right_tag}>
+                <a href="url">{question.tag}</a>
+              </div>
+            </div>
           </div>
-          
-          
         ))
       }
     </div>
   )
 }
-
 export default QuestionList
+
+
+ 
+
+
+
+
