@@ -4,7 +4,7 @@ import styles from './Button.module.css';
 
 
 function Button({
-  color = 'blue',
+  color = 'blue', // blue | red | orange | transparent | border
   text = '',
   size = 'normal',
   url,

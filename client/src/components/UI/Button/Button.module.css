@@ -68,6 +68,15 @@
   background-color: var(--button-orange-hover);
 }
 
+/* LINE */
+.transparent {
+  background-color: transparent;
+  color: var(--button-blue);
+}
+.transparent:hover {
+  color: var(--button-blue-hover);
+}
+
 /* BORDER-BLUE */
 .border {
   background-color: var(--button-border-bg);
