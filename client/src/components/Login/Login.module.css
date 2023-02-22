@@ -36,17 +36,3 @@
 .sub_container {
   margin-top: 1rem;
 }
-.sub {
-  font-size: 13px;
-  width: 100%;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.link {
-  text-decoration: none;
-  color: var(--blue-600);
-}
-.link:hover {
-  color: var(--blue-500);
-}

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import LoginForm from './LoginForm/LoginForm';
 import SocialButton from '../UI/SocialButton/SocialButton';
+import MessageLink from '../UI/MessageLInk/MessageLink';
 
 import styles from './Login.module.css';
 
@@ -49,18 +50,16 @@ function Login() {
 
       {/* LINK */}
       <div className={styles.sub_container}>
-        <div className={styles.sub}>
-          Don&apos;t have an account?{' '}
-          <Link className={styles.link} to="/signup">
-            &nbsp;Sign up
-          </Link>
-        </div>
-        <div className={styles.sub}>
-          Are you an employer?
-          <Link className={styles.link} to="/">
-            &nbsp;Sign up on Talent
-          </Link>
-        </div>
+        <MessageLink
+          text="Don't have an account?"
+          linkText="Sign up"
+          to="/signup"
+        />
+        <MessageLink
+          text="Are you an employer?"
+          linkText="Sign up on Talent"
+          to="/"
+        />
       </div>
     </div>
   );
