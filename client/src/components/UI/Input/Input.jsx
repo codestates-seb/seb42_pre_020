@@ -9,6 +9,8 @@ function Input({
   isValid,
   leftIcon,
   rightIcon,
+  id,
+  type = 'text',
 }) {
   const keydownHandler = (e) => {
     if (e.key === 'Enter') {
@@ -24,11 +26,12 @@ function Input({
         className={`${styles.input} ${size ? `${styles[size]}` : ``} ${
           isValid ? `` : `${styles.error}`
         }`}
-        type={'text'}
+        type={type}
         placeholder={placeholder}
         onChange={onChange}
         onKeyDown={keydownHandler}
         value={value}
+        id={id}
       />
       {rightIcon && (
         <div className={`${styles.icon} ${styles.right}`}>{rightIcon}</div>
