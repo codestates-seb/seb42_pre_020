@@ -46,6 +46,7 @@
 .user_info {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 .user_image {
   border: 1px solid var(--black-100);
@@ -81,5 +82,17 @@
   .date {
     font-size: 0.9rem;
     margin-top: 0.3rem;
+  }
+  .tag_list > a {
+    margin-right: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+  .user_name {
+    font-size: 0.9rem;
+    margin: 0.1rem 5px 0 0;
+  }
+  .date {
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
   }
 }

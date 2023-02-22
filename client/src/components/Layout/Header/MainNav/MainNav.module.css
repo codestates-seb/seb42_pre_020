@@ -18,8 +18,12 @@
 }
 
 .proflie {
-  display: inline-block;
-  height: 100%;
+  display: flex;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid var(--black-100);
+  border-radius: 50%;
 }
 .proflie:hover {
   background-color: var(--black-075);
@@ -28,5 +32,4 @@
   height: 24px;
   width: 24px;
   overflow: hidden;
-  margin: 0.5rem;
 }

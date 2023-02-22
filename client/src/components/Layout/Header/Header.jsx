@@ -19,7 +19,7 @@ function Header() {
     console.log('검색');
     e.preventDefault();
   };
-
+  const isLogin = true;
   return (
     <header className={styles.container}>
       <div className={styles.header}>
@@ -40,7 +40,7 @@ function Header() {
           />
         </form>
         {/* NAV */}
-        <MainNav />
+        <MainNav isLogin={isLogin} />
       </div>
     </header>
   );

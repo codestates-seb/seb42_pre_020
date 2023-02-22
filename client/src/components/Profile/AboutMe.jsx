@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
 import ListItemA from './AboutMe_items/ListItemA';
 import ListItemQ from './AboutMe_items/ListItemQ';
+
 import styles from './AboutMe.module.css';
 
 function AboutMe(data) {

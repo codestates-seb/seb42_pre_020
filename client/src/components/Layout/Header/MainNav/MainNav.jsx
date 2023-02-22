@@ -9,13 +9,11 @@ function MainNav({ isLogin }) {
     return (
       <ul className={`${styles.nav} ${styles.main_nav}`}>
         <li>
-          <Link to="/" className={styles.proflie}>
+          <Link to="/mypage" className={styles.proflie}>
             <img
               className={styles.profile_img}
               // 임시 이미지 URL
-              src={
-                'https://lh3.googleusercontent.com/a/AEdFTp6IU-GXqHrorT7WFa-SaIxCn9t0_qhbxi85HOTi3g=k-s48'
-              }
+              src={'https://cdn-icons-png.flaticon.com/512/9655/9655066.png'}
               alt="profile"
             />
           </Link>

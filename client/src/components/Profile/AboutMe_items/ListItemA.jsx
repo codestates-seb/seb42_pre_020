@@ -12,7 +12,7 @@ function ListItemA() {
           <span>
             <img
               className={styles.user_image}
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Noto_Emoji_Oreo_1f914.svg/1200px-Noto_Emoji_Oreo_1f914.svg.png"
+              src="https://cdn-icons-png.flaticon.com/512/9655/9655066.png"
               alt="My profile"
             />
           </span>
