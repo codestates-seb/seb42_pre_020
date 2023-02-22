@@ -3,8 +3,6 @@ import Layout from './components/Layout/Layout';
 import AskQuestion from './pages/AskQuestion';
 import LoginPage from './pages/LoginPage';
 import MyQuestion from './pages/MyQuestion';
-import Modal from './components/UI/Modal/Modal';
-import LoginPage from './pages/LoginPage';
 import ModalTest from './pages/ModalTest';
 import SignupPage from './pages/SignupPage';
 import TopQuestion from './pages/TopQuestion';
