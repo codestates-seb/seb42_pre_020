@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styles from './Button.module.css';
 
+
 function Button({
   color = 'blue', // blue | red | orange | transparent | border
   text = '',
