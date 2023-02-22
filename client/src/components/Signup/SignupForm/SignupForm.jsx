@@ -66,6 +66,7 @@ function SignupForm() {
           inputProps={passwordProps}
           value={password}
           onChange={onChangePasswordHandler}
+          description="Passwords must contain at least eight characters, including at least 1 letter and 1 number."
         />
         <SignupErrorMessage name="password" status="invalid" />
       </div>
