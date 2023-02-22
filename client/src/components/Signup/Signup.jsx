@@ -1,8 +1,8 @@
-import MessageLink from '../UI/MessageLink/MessageLink';
 import SocialButton from '../UI/SocialButton/SocialButton';
+import SignupForm from './SignupForm/SignupForm';
+import MessageLink from '../UI/MessageLink/MessageLink';
 
 import styles from './Signup.module.css';
-import SignupForm from './SignupForm/SignupForm';
 
 function Signup() {
   const onSocialSignUpHandler = (type) => {
