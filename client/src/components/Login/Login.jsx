@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import LoginForm from './LoginForm/LoginForm';
 import SocialButton from '../UI/SocialButton/SocialButton';
-import MessageLink from '../UI/MessageLInk/MessageLink';
+import MessageLink from '../UI/MessageLink/MessageLink';
 
 import styles from './Login.module.css';
 
