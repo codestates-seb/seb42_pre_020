@@ -93,6 +93,7 @@
   --red-900: hsl(358, 67%, 29%);
   --kakao: #fee500;
   --kakao-hover: #ffd900;
+  --modal-bg: rgba(0, 0, 0, 0.4);
 
   /* Font */
   --font-main: var(--black-800);
