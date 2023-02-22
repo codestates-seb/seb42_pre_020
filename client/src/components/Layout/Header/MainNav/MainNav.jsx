@@ -9,7 +9,7 @@ function MainNav({ isLogin }) {
     return (
       <ul className={`${styles.nav} ${styles.main_nav}`}>
         <li>
-          <Link to="/" className={styles.proflie}>
+          <Link to="/mypage" className={styles.proflie}>
             <img
               className={styles.profile_img}
               // 임시 이미지 URL
