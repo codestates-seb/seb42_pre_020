@@ -14,17 +14,41 @@ const users = {
   name: `One-Punch Man`,
   profileimage:
     'https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-  create_dt: '2023. 2. 23. 오후 4:18:53',
+  create_dt: 'Thu Feb 23 2023 22:02:35 GMT+0900 (한국 표준시)',
 };
 const question = {
-  update_dt: '2023. 2. 23. 오후 4:18:53',
+  update_dt: 'Thu Jan 10 2023 17:23:21 GMT+0900 (한국 표준시)',
 };
 const answer = {
-  update_dt: '2023. 2. 23. 오후 4:18:53',
+  update_dt: 'Thu Oct 02 2022 12:50:02 GMT+0900 (한국 표준시)',
 };
 //
 
 function MyProfile() {
+  function elapsedTime(date) {
+    const start = new Date(date);
+    const end = new Date();
+    const diff = (end - start) / 1000;
+    const times = [
+      { name: 'year', milliSeconds: 60 * 60 * 24 * 365 },
+      { name: 'month', milliSeconds: 60 * 60 * 24 * 30 },
+      { name: 'day', milliSeconds: 60 * 60 * 24 },
+      { name: 'hour', milliSeconds: 60 * 60 },
+      { name: 'min', milliSeconds: 60 },
+    ];
+
+    for (const value of times) {
+      const betweenTime = Math.floor(diff / value.milliSeconds);
+
+      if (betweenTime === 1) {
+        return `${betweenTime} ${value.name}`;
+      } else if (betweenTime > 0) {
+        return `${betweenTime} ${value.name}s`;
+      }
+    }
+    return '0 min';
+  }
+
   return (
     <div className={styles.MyProfile_Container}>
       <div className={styles.MyProfile_image}>
@@ -41,15 +65,15 @@ function MyProfile() {
         <div className={styles.user_history}>
           <span>
             <MdCake className={styles.cake_icon} />
-            Member for 3 days
+            {`Member for ${elapsedTime(users.create_dt)}`}
           </span>
           <span>
             <RiQuestionnaireFill className={styles.msg_icon} />
-            Last question 2 days ago
+            {`Last question ${elapsedTime(question.update_dt)} ago`}
           </span>
           <span>
             <RiMessage2Fill className={styles.msg_icon} />
-            Last answer 1 hour ago
+            {`Last answer ${elapsedTime(answer.update_dt)} ago`}
           </span>
         </div>
       </div>
