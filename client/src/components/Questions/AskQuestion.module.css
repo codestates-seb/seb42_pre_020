@@ -1,0 +1,93 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  margin-left: 1rem;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content:flex-start;
+  padding: 2rem;
+}
+
+
+section {
+  width: 80%;
+  margin-bottom: 5rem;
+  padding: 2rem;
+}
+
+.section_title {
+  margin-bottom: 3rem;
+  font-size: 2rem;
+  
+}
+
+.section_bluebox {
+  background-color: var(--blue-050);
+  border: 1px solid ;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 1.5rem;
+  width: 100%;
+  height: 100%;
+}
+
+.section_bluebox ul {
+  margin-left: 2rem;
+}
+
+.form {
+  margin-top: 3rem;
+  width: 80%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+form .AddTitle {
+  background-color: var(--white);
+  border: 1px solid black;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+}
+
+form .AddTag {
+  background-color: var(--white);
+
+  border: 1px solid black;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+}
+
+.form .AddBody {
+  background-color: var(--white);
+  border: 1px solid black;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+}
+
+.textarea:focus {
+  border-color: var(--blue-300);
+  box-shadow: var(--wrapped-shadow);
+}
+
+.textarea {
+  width: 100%;
+  padding: 1rem;
+  outline: none;
+}
+
