@@ -11,6 +11,7 @@ public interface AnswerMapper {
 
     AnswerEntity PatchDtoAnswer(AnswerDto.Patch answerPatchDto);
 
+    /*
     default AnswerDto.Response AnswerResponseDto(AnswerEntity answer) {
         AnswerDto.Response response = new AnswerDto.Response(
                 answer.getAnswerId(),
@@ -22,5 +23,5 @@ public interface AnswerMapper {
                 answer.getOwner()
         );
         return response;
-    }
+    } */
 }

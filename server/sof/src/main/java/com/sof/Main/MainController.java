@@ -26,10 +26,10 @@ public class MainController {
 
     //검색 기능
     @GetMapping("/search")
-    public ResponseEntity searchQ(@RequestParam(value = "Q") String Q) {
-        List<QuestionEntity> questions = questionService.search(Q);
+    public ResponseEntity searchQ(@RequestParam(value = "q") String q) {
+        List<QuestionEntity> questions = questionService.search(q);
 
-        List<QuestionDto.QBodyResponse> response = this.questionMapper.QToQbodyResponse(questions);
+        List<QuestionDto.QBodyResponse> response = this.mapper.QToBodyResponses(questions);
 
         return new ResponseEntity<>(new MainResponseDto(response), HttpStatus.OK);
     }
@@ -38,7 +38,7 @@ public class MainController {
     @GetMapping("/search/tag")
     public ResponseEntity tagSearch(@RequestParam(value = "tag") String tag) {
         List<QuestionEntity> questions = questionService.getQByTag(tag);
-        List<QuestionDto.QBodyResponse> response = this.questionMapper.QToQbodyResponse(questions);
+        List<QuestionDto.QBodyResponse> response = this.mapper.QToBodyResponses(questions);
 
         return new ResponseEntity<>(new MainResponseDto(response), HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class MainController {
     @GetMapping("/search/user/{userId}")
     public ResponseEntity userSearch(@PathVariable("userId") Long userId) {
         List<QuestionEntity> questions = questionService.getQByUser(userId);
-        List<QuestionDto.QBodyResponse> response = this.questionMapper.QToQbodyResponse(questions);
+        List<QuestionDto.QBodyResponse> response = this.mapper.QToBodyResponses(questions);
 
         return new ResponseEntity<>(new MainResponseDto(response), HttpStatus.OK);
     }

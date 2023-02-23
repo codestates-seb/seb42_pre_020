@@ -38,7 +38,7 @@ public class UserController {
     //로그인
     @PostMapping("/login")
     public ResponseEntity login(@Validated @RequestBody UserDto.login dto) {
-        String accessToken = "J " + userService.makeAccessToken(dto);
+        String accessToken = "bearer " + userService.makeAccessToken(dto);
         //ID 존재 여부 확인
         UserEntity user = userService.findByEmail(dto.getEmail());
 
@@ -66,8 +66,8 @@ public class UserController {
     }
 
     //회원정보 수정
-    @PatchMapping("/mypage/{userId}")
-    public ResponseEntity updateMyPage(@RequestHeader(value = "accessToken") String accessToken,
+    @PatchMapping("/profile/{userId}")
+    public ResponseEntity updateProfile(@RequestHeader(value = "accessToken") String accessToken,
                                        @RequestBody UserDto.update dto) {
         if (accessToken.equals("not")) {
             throw new UnauthorizedException("로그인이 필요합니다!");

@@ -31,15 +31,15 @@ public interface QuestionMapper {
         QuestionDto.Response response = QuestionDto.Response
                 .builder()
                 .questionId(question.getQuestionId())
-                .title(question.getTitle())
-                .body(question.getBody())
-                .tags(question.getTagStr())
-                .isAnswered(question.isAnswered())
-                .viewCount(question.getViewCount())
                 .answerCount(question.getAnswerCount())
-                .score(question.getScore())
-                .creat_dt(question.getCrate_dt())
+                .body(question.getBody())
+                .title(question.getTitle())
+                .viewCount(question.getViewCount())
+                .crate_dt(question.getCrate_dt())
+                .isAnswered(question.isAnswered())
                 .update_dt(question.getUpdate_dt())
+                //.tags(question.getTagStr())
+                .score(question.getScore())
                 .build();
         return response;
     }

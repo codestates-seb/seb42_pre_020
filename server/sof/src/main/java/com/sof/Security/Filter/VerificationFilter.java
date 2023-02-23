@@ -34,14 +34,15 @@ public class VerificationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorization = request.getHeader("A");
 
-        return authorization == null || !authorization.startsWith("J");
+        return authorization == null || !authorization.startsWith("bearer");
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws = request.getHeader("AccessToken").replace("J ", "");
+        String jws = request.getHeader("AccessToken").replace("bearer ", "");
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
 

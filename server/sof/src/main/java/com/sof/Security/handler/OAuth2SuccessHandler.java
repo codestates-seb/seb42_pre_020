@@ -13,10 +13,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
@@ -36,6 +38,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String sub = "";
         String email = "";
         String name = "";
+        //String profileImage = "";
 
         if(oAuth2User.getAttributes().containsKey("response")) {
             String tmp = oAuth2User.getAttributes().get("response").toString().replaceAll("\\{", "").replaceAll("}", "").replaceAll(", ", "=");
@@ -51,6 +54,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             sub = String.valueOf(oAuth2User.getAttributes().get("sub"));
             email = String.valueOf(oAuth2User.getAttributes().get("email"));
             name = String.valueOf(oAuth2User.getAttributes().get("name"));
+            //profileImage = String.valueOf(oAuth2User.getAttributes().get("picture"));
         }
         System.out.println(oAuth2User.getAttributes().toString());
 
@@ -59,14 +63,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     private void saveUser(String sub, String email, String name) {
-        UserEntity user = UserService.findByEmailCreate(email);
+        UserEntity user = userService.findByEmailCreate(email);
 
         if(user == null) {
             user = new UserEntity();
             user.setEmail(email);
             user.setName(name);
+            //user.setProfileImage(profileImage);
             user.setCreateDate(LocalDateTime.now());
-            user.getPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("테스트 프리Pr"));
+            user.setPassword(PasswordEncoderFactories.createDelegatingPasswordEncoder().encode("테스트 프젝!"));
             userService.createUser(user);
         }
     }
@@ -77,8 +82,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String id = user.getUserId().toString();
         String name = user.getName();
+        String profileImage = user.getProfileImage();
 
-        response.setHeader("AccessToken", "J " + accessToken);
+        response.setHeader("AccessToken", "bearer " + accessToken);
         //배포 시 아마존으로 변경해야 하는 부분
 
         getRedirectStrategy().sendRedirect(request, response, "아마존 s3와 연관된 주소값" + accessToken);

@@ -31,7 +31,7 @@ public class ScoreEntity {
     @JoinColumn(name = "answer")
     private AnswerEntity answer;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "user")
     private UserEntity user;
 }

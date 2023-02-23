@@ -25,9 +25,12 @@ public class TagService {
             TagEntity tag = new TagEntity();
 
             if(this.tagRepository.countByTag(tagStr) == 0) {
+                tag = new TagEntity(tagStr, question);
+                this.tagRepository.save(tag);
+            }
+            else {
                 tag = tagRepository.findByTag(tagStr);
                 List<QuestionEntity> questions = tag.getQuestions();
-
                 questions.add(question);
                 tag.setQuestions(questions);
                 this.tagRepository.save(tag);

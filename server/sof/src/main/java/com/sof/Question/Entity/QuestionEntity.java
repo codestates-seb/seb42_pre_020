@@ -6,7 +6,9 @@ import com.sof.Tag.TagEntity;
 import com.sof.Users.Dto.UserDto;
 import com.sof.Users.Entity.UserEntity;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,17 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class QuestionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long questionId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
     @Column
@@ -47,13 +50,13 @@ public class QuestionEntity {
 
     //연관관계 설정
     @ManyToMany
-    @JoinTable(name = "QTag")
+    @JoinTable(name = "question_tag")
     private List<TagEntity> tags = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<AnswerEntity> answers = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
@@ -75,6 +78,12 @@ public class QuestionEntity {
                 user.getUserId(), user.getName(), user.getProfileImage());
 
         return owner;
+    }
+
+    public QuestionEntity(String title, String body, List<TagEntity> tags) {
+        this.title = title;
+        this.body = body;
+        this.tags = tags;
     }
 }
 

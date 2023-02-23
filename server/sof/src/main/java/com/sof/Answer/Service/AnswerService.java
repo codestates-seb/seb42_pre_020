@@ -28,10 +28,11 @@ public class AnswerService {
     public AnswerEntity create(Long id, AnswerEntity answer, UserEntity user) {
         QuestionEntity question = questionService.find(id);
 
+        question.setAnswerCount(question.getAnswerCount() + 1);
+        question.setAnswered(true);
         answer.setQuestion(question);
         answer.setScore(0);
         answer.setUser(user);
-        answer.setAnswerCount(question.getAnswerCount() + 1);
         answer.setAccepted(false);
 
         return answerRepository.save(answer);
@@ -46,7 +47,7 @@ public class AnswerService {
         return answerRepository.save(findAnswer);
     }
 
-    public AnswerEntity delete(Long answerId) {
+    public void delete(Long answerId) {
         AnswerEntity answer = findVerifiedAnswer(answerId);
         QuestionEntity question = answer.getQuestion();
         question.setAnswerCount(answer.getQuestion().getAnswerCount() - 1);
@@ -64,5 +65,13 @@ public class AnswerService {
 
         if(Answer.isPresent()) { return Answer.get(); }
         else { throw new DataNotFoundException("질문을 찾을 수 없습니다!"); }
+    }
+
+    public boolean TFAnswer(Long answerId, UserEntity user) {
+        AnswerEntity answer = answerRepository.findById(answerId).get();
+
+        if(answer.getUser() == user) { return true; }
+
+        return false;
     }
 }

@@ -4,6 +4,7 @@ import com.sof.Exception.DataNotFoundException;
 import com.sof.Question.Dto.QuestionDto;
 import com.sof.Question.Entity.QuestionEntity;
 import com.sof.Question.Repository.QuestionRepository;
+import com.sof.Score.ScoreService;
 import com.sof.Tag.TagEntity;
 import com.sof.Tag.TagService;
 import com.sof.Users.Entity.UserEntity;
@@ -23,17 +24,18 @@ public class QuestionService {
     private final TagService tagService;
     private final UserService userService;
 
-    public QuestionService(QuestionRepository questionRepository, TagService tagService, UserService userService) {
+    private final ScoreService scoreService;
+
+    public QuestionService(QuestionRepository questionRepository, TagService tagService, UserService userService, ScoreService scoreService) {
         this.questionRepository = questionRepository;
         this.tagService = tagService;
         this.userService = userService;
+        this.scoreService = scoreService;
     }
 
     //질문 등록
     public QuestionEntity create(QuestionEntity question, List<String> tags, UserEntity user) //public 메서드타입 메서드명
     {
-        question.setTitle(question.getTitle());
-        question.setBody(question.getBody());
         question.setCrate_dt(LocalDateTime.now());
         question.setUpdate_dt(LocalDateTime.now());
         question.setUser(user);
@@ -112,5 +114,44 @@ public class QuestionService {
         if(question.getUser() == user) { return true; }
 
         return false;
+    }
+
+    public Boolean getWrite(Long id, UserEntity user) {
+        QuestionEntity question = find(id);
+
+        if(user.getUserId() != null) {
+            if(question.getUser() == user) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //태그 검색 기능
+    public List<QuestionEntity> getQByTag(String tagStr) {
+        TagEntity tag = this.tagService.stringTag(tagStr);
+        List<QuestionEntity> questions = tag.getQuestions();
+
+        Collections.sort(questions, new Comparator<QuestionEntity>() {
+            @Override
+            public int compare(QuestionEntity q1, QuestionEntity q2) {
+                return q2.getCrate_dt().compareTo(q1.getCrate_dt());
+            }
+        });
+        return questions;
+    }
+
+    //유저 검색 기능
+    public List<QuestionEntity> getQByUser(Long userId) {
+        UserEntity user = userService.find(userId);
+        List<QuestionEntity> questions = questionRepository.findByUser(user);
+
+        Collections.sort(questions, new Comparator<QuestionEntity>() {
+            @Override
+            public int compare(QuestionEntity q1, QuestionEntity q2) {
+                return q2.getCrate_dt().compareTo(q1.getCrate_dt());
+            }
+        });
+        return questions;
     }
 }

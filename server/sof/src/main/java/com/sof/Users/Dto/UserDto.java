@@ -22,7 +22,7 @@ public class UserDto {
 
         @NotBlank
         @Size(min = 5, max = 15)
-        private String password; //회원 비밇번호
+        private String password; //회원 비밀번호
     }
 
     @Getter

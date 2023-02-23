@@ -53,7 +53,7 @@ public class CustomSecurityFilter extends UsernamePasswordAuthenticationFilter {
         //토큰 생성
         String accessToken = delegateAccessToken(user);
 
-        response.setHeader("AccessToken", "J " + accessToken);
+        response.setHeader("AccessToken", "bearer " + accessToken);
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authentication);
     }

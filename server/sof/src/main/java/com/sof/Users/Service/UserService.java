@@ -100,7 +100,7 @@ public class UserService {
 
     //액세스 토큰으로 사용자 찾기
     public UserEntity findByAccessToken(String AccessToken) {
-        String jwt = AccessToken.replace("J ", "");
+        String jwt = AccessToken.replace("bearer ", "");
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
 
         Map<String, Object> claims = jwtTokenizer.getClaims(jwt, base64EncodedSecretKey).getBody();

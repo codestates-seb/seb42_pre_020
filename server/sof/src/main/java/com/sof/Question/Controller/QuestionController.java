@@ -54,13 +54,14 @@ public class QuestionController {
 
         QuestionEntity question = questionService.create(questionMapper.questionPostDtoToQuestion(addQ), addQ.getTags(), user);
 
-        QuestionDto.Response response = QuestionMapper.questionToQuestionResponse(question);
+        QuestionDto.Response response = questionMapper.questionToQuestionResponse(question);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
 
 
     }
 
+    //전체 질문 조회하기
     @GetMapping("/questions")
     public ResponseEntity allQuestion() {
         List<QuestionEntity> questions = this.questionService.getQuestions();
@@ -88,6 +89,7 @@ public class QuestionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    //질문 수정
     @PatchMapping("/questions/{questionId}")
     public ResponseEntity updateQuestion(@PathVariable("questionId") Long Id,
                                          @RequestBody QuestionDto.Patch patchDto) {
@@ -96,6 +98,7 @@ public class QuestionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //질문 삭제
     @DeleteMapping("/delete/{questionId}")
     public ResponseEntity deleteQuestion(@PathVariable("questionId") Long Id,
                                          @RequestBody TokenDto requestBody) {
