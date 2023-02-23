@@ -21,7 +21,7 @@ function App() {
           {/* 페이지 */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/ask" element={<AskQuestion />} />
+          <Route path="/askquestion" element={<AskQuestion />} />
           <Route path="/" element={<TopQuestion />} />
           <Route path="/question" element={<MyQuestion />} />
           <Route path="/modal" element={<ModalTest />} />
