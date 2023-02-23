@@ -3,8 +3,9 @@ package com.sof.Answer.Mapper;
 import com.sof.Answer.Dto.AnswerDto;
 import com.sof.Answer.Entity.AnswerEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AnswerMapper {
     AnswerEntity PostDtoAnswer(AnswerDto.Post answerPostDto);
 
@@ -15,7 +16,10 @@ public interface AnswerMapper {
                 answer.getAnswerId(),
                 answer.getDetail(),
                 answer.getCreateDate(),
-                answer.getQuestion().getQuestionId()
+                answer.getQuestion().getQuestionId(),
+                answer.isAccepted(),
+                answer.getScore(),
+                answer.getOwner()
         );
         return response;
     }

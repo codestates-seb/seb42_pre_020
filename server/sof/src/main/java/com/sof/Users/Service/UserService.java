@@ -81,7 +81,7 @@ public class UserService {
         //해당 Id를 가진 사용자가 있다면 값 가져옴
         if(findUser.isPresent()) { return findUser.get(); }
         //사용자가 없다면 예외 출력
-        else { throw new DataNotFoundException("사용자를 찾을 수 없습니다!") }
+        else { throw new DataNotFoundException("사용자를 찾을 수 없습니다!"); }
     }
 
     //이메일을 통한 사용자 존재여부 확인

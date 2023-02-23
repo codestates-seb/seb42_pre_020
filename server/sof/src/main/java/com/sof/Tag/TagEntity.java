@@ -1,5 +1,6 @@
 package com.sof.Tag;
 
+import com.sof.Question.Entity.QuestionEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

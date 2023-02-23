@@ -57,6 +57,7 @@ public class UserDto {
         private Long userId;
         private String email;
         private String name;
+        private String profileImage;
         private LocalDateTime createDate;
     }
 
@@ -67,5 +68,19 @@ public class UserDto {
         private Long userId;
         private String email;
         private String name;
+        private String profileImage;
+    }
+
+    @Getter
+    public static class owner {
+        private Long userId;
+        private String name;
+        private String profileImage;
+
+        public owner(Long userId, String name, String profileImage) {
+            this.userId = userId;
+            this.name = name;
+            this.profileImage = profileImage;
+        }
     }
 }

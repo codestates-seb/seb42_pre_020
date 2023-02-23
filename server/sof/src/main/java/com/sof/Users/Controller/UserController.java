@@ -16,7 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -25,13 +25,6 @@ public class UserController {
     public UserController(UserService userService, UserMapper mapper) {
         this.userService = userService;
         this.mapper = mapper;
-    }
-
-    @GetMapping("/get")
-    public ResponseEntity get(@Validated @RequestBody String accessToken) {
-        UserEntity user = userService.findByAccessToken(accessToken);
-
-        return new ResponseEntity(mapper.userToUserResponseDto(user), HttpStatus.OK);
     }
 
     //회원가입
@@ -85,5 +78,12 @@ public class UserController {
         UserDto.response response = this.mapper.userToUserResponseDto(updateUser);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity get(@Validated @RequestBody String accessToken) {
+        UserEntity user = userService.findByAccessToken(accessToken);
+
+        return new ResponseEntity(mapper.userToUserResponseDto(user), HttpStatus.OK);
     }
 }

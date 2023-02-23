@@ -1,5 +1,6 @@
 package com.sof.Answer.Dto;
 
+import com.sof.Users.Dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,5 +34,8 @@ public class AnswerDto {
         private String detail;
         private Long questionId;
         private LocalDateTime createDate;
+        private int score;
+        private boolean isAccepted;
+        private UserDto.owner owner;
     }
 }

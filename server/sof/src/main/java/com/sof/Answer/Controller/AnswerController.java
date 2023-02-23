@@ -2,9 +2,13 @@ package com.sof.Answer.Controller;
 
 import antlr.Token;
 import com.sof.Answer.Dto.AnswerDto;
+import com.sof.Answer.Entity.AnswerEntity;
 import com.sof.Answer.Mapper.AnswerMapper;
 import com.sof.Answer.Service.AnswerService;
+import com.sof.Exception.UnauthorizedException;
+import com.sof.Question.Service.QuestionService;
 import com.sof.Security.Dto.TokenDto;
+import com.sof.Users.Entity.UserEntity;
 import com.sof.Users.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,14 @@ public class AnswerController {
     //해당 id를 가진 질문에 답변 등록
     @PostMapping("/answers")
     public ResponseEntity postAnswer(@PathVariable Long id, @RequestBody AnswerDto.Post post) {
+        if(post.getAccessToken().equals("not")) {
+            throw new UnauthorizedException("로그인이 필요합니다!");
+        }
+
+        UserEntity user = userService.findByAccessToken(post.getAccessToken());
+        AnswerEntity answer = mapper.PostDtoAnswer(post);
+        answerService.create(id, answer, user);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -40,6 +52,12 @@ public class AnswerController {
     @PatchMapping("/answers")
     public ResponseEntity patchAnswer(@PathVariable("id") @Positive Long answerId,
                                       @RequestBody AnswerDto.Patch patch) {
+        if(!answerService.TFAnswer(answerId, userService.findByAccessToken(patch.getAccessToken()))) {
+            throw new UnauthorizedException(("작성자가 아닙니다!!"));
+        }
+
+        AnswerEntity answer = answerService.update(answerId, mapper.PatchDtoAnswer(patch));
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -47,6 +65,16 @@ public class AnswerController {
     @DeleteMapping("/answers/{answerId}")
     public ResponseEntity deleteAnswer(@PathVariable("id") @Positive Long answerId,
                                        @RequestBody TokenDto tokenDto) {
+        if(tokenDto.getAccessToken().equals("not")) {
+            throw new UnauthorizedException("로그인이 필요합니다!");
+        }
+
+        if(!answerService.TFAnswer(answerId, userService.findByAccessToken(tokenDto.getAccessToken()))) {
+            throw new UnauthorizedException("작성자가 아닙니다!");
+        }
+
+        answerService.delete(answerId);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

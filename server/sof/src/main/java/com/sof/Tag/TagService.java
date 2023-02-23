@@ -1,5 +1,7 @@
 package com.sof.Tag;
 
+import com.sof.Question.Entity.QuestionEntity;
+import com.sof.Question.Repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

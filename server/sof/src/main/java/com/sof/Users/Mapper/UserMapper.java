@@ -11,6 +11,7 @@ public interface UserMapper {
                 user.getUserId(),
                 user.getEmail(),
                 user.getName(),
+                user.getProfileImage(),
                 user.getCreateDate()
         );
         return response;
@@ -21,8 +22,16 @@ public interface UserMapper {
                 accessToken,
                 user.getUserId(),
                 user.getEmail(),
-                user.getName()
+                user.getName(),
+                user.getProfileImage()
         );
+        return response;
+    }
+
+    default UserDto.owner userToOwner(UserEntity user) {
+        UserDto.owner response = new UserDto.owner(
+                user.getUserId(), user.getName(), user.getProfileImage());
+
         return response;
     }
 }
