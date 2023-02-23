@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sof.Security.Dto.LoginDto;
 import com.sof.Security.Jwt.JwtTokenizer;
 import com.sof.Users.Entity.UserEntity;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,14 +29,15 @@ public class CustomSecurityFilter extends UsernamePasswordAuthenticationFilter {
         this.jwtTokenizer = jwtTokenizer;
     }
 
-    @SneakyThrows //선언부에 Throws를 정의하지 않고, 검사 된 예외를 Throw 할 수 있도록 함
+    @SneakyThrows
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        //로그인 Dto를 역직렬화(JSON 컨텐츠를 Java 객체로 역직렬화)
+
+        //로그인 dto를 역직렬화
         ObjectMapper objectMapper = new ObjectMapper();
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
 
-        //이메일과 비번을 포함한 토큰 생성
+        // 이메일과 비번을 포함한 토큰 생성
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
@@ -46,27 +48,25 @@ public class CustomSecurityFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authentication) throws ServletException, IOException {
-        //principal로부터 User 정보 호출
-        UserEntity user = (UserEntity) authentication.getPrincipal();
+                                            Authentication authResult) throws ServletException, IOException {
+        // principal로부터 User정보 호출
+        UserEntity user = (UserEntity) authResult.getPrincipal();
 
-        //토큰 생성
+        // 토큰 생성
         String accessToken = delegateAccessToken(user);
 
         response.setHeader("AccessToken", "bearer " + accessToken);
 
-        this.getSuccessHandler().onAuthenticationSuccess(request, response, authentication);
+        this.getSuccessHandler().onAuthenticationSuccess(request,response,authResult);
     }
 
-    //엑세스토큰 생성 로직
+    // 엑세스토큰 생성 로직
     private String delegateAccessToken(UserEntity user) {
         Map<String, Object> claims = new HashMap<>();
-
         claims.put("email", user.getEmail());
-        claims.put("userId", user.getUserId());
+        claims.put("userId",user.getUserId());
 
         String subject = user.getEmail();
-
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());

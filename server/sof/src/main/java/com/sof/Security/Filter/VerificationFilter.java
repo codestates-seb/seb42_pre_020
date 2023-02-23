@@ -21,6 +21,9 @@ public class VerificationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+//        Map<String, Object> claims = verifyJws(request);
+//
+//        filterChain.doFilter(request, response);
         try {
             Map<String, Object> claims = verifyJws(request);
         } catch (SignatureException se) {
@@ -33,7 +36,6 @@ public class VerificationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorization = request.getHeader("A");

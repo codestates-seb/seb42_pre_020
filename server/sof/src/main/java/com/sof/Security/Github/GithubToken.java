@@ -7,10 +7,8 @@ import org.springframework.stereotype.Component;
 public class GithubToken {
     @JsonProperty("access_token")
     private String accessToken;
-
     @JsonProperty("token_type")
     private String tokenType;
-
     @JsonProperty("scope")
     private String scope;
 
@@ -18,20 +16,20 @@ public class GithubToken {
         return accessToken;
     }
 
-    public String getTokenType() {
-        return tokenType;
-    }
-
-    public String getScope() {
-        return scope;
-    }
-
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
 
+    public String getTokenType() {
+        return tokenType;
+    }
+
     public void setTokenType(String tokenType) {
         this.tokenType = tokenType;
+    }
+
+    public String getScope() {
+        return scope;
     }
 
     public void setScope(String scope) {

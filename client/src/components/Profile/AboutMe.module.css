@@ -1,0 +1,68 @@
+.Tab_Container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 5rem 4rem 5rem;
+  transition: 0.3s;
+}
+
+.AboutMe_Head {
+  border-bottom: 1px solid var(--black-100);
+  padding-bottom: 10px;
+  margin-bottom: 50px;
+}
+.Head_title {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+.introduction {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  margin-left: 2px;
+}
+
+.Tab_Menu {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
+  list-style: none;
+  cursor: pointer;
+  z-index: 1;
+}
+.Submenu {
+  border: 1px solid var(--black-100);
+  border-bottom: 2px solid var(--black-150);
+  border-radius: 5px 5px 0 0;
+  margin-right: 5px;
+  padding: 0.6rem;
+  width: 9rem;
+  height: 2.8rem;
+  color: var(--black-300);
+  font-size: 1.2rem;
+  transition: 0.3s;
+}
+.focused {
+  background-color: var(--black-050);
+  border-bottom: 3px solid var(--orange-500);
+  color: var(--black);
+  font-size: 1.3rem;
+  transition: 0.3s;
+}
+.List_container {
+  border: 1px solid var(--black-100);
+  border-radius: 0 5px 5px 5px;
+  padding: 1rem 3rem 2rem 3rem;
+  transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+  .Tab_Container {
+    padding: 2rem 2rem 4rem 2rem;
+    transition: 0.3s;
+  }
+  .List_container {
+    padding: 1rem 2rem 2rem 2rem;
+    transition: 0.3s;
+  }
+}

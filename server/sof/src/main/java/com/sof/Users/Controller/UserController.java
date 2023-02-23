@@ -66,7 +66,7 @@ public class UserController {
     }
 
     //회원정보 수정
-    @PatchMapping("/profile/{userId}")
+    @PatchMapping("/profile/{userId}/edit")
     public ResponseEntity updateProfile(@RequestHeader(value = "accessToken") String accessToken,
                                        @RequestBody UserDto.update dto) {
         if (accessToken.equals("not")) {

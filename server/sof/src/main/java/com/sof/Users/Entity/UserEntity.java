@@ -1,8 +1,5 @@
 package com.sof.Users.Entity;
 
-import com.sof.Answer.Entity.AnswerEntity;
-import com.sof.Question.Entity.QuestionEntity;
-import com.sof.Score.ScoreEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,14 +33,6 @@ public class UserEntity {
     @Column(name = "create_dt")
     private LocalDateTime createDate; //회원 생성 날짜
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<QuestionEntity> questions = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<AnswerEntity> answers;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<ScoreEntity> likeUsers;
 
     public enum UserStatus {
         USER_ACTIVE("활동중"),

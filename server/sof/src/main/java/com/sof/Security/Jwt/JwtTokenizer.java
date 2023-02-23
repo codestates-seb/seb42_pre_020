@@ -18,7 +18,7 @@ import java.util.Map;
 
 @Component
 public class JwtTokenizer {
-    // 아래 3개는 JWT 생성 시 필요한 정보이며 yml 파일에서 로드함
+    // 아래 3개는 JWT 생성 시 필요한 정보이며 yml 파일에서 로드한다.
     @Getter
     @Value("${jwt.secret}")
     private String secretKey;

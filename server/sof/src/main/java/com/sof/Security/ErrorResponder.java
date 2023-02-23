@@ -1,13 +1,13 @@
 package com.sof.Security;
 
 import com.google.gson.Gson;
+import com.google.gson.Gson;
 import com.sof.Exception.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 
 public class ErrorResponder {
     public static void sendErrorResponse(HttpServletResponse response, HttpStatus status) throws IOException {
