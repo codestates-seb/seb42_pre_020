@@ -22,8 +22,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/ask" element={<AskQuestion />} />
-          <Route path="/top" element={<TopQuestion />} />
-          <Route path="/my" element={<MyQuestion />} />
+          <Route path="/" element={<TopQuestion />} />
+          <Route path="/question" element={<MyQuestion />} />
           <Route path="/modal" element={<ModalTest />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/editprofile" element={<EditProfile />} />

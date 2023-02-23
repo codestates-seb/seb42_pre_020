@@ -9,6 +9,21 @@ import {
 
 import styles from './MyProfile.module.css';
 
+// 임의의 데이터
+const users = {
+  name: `One-Punch Man`,
+  profileimage:
+    'https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+  create_dt: '2023. 2. 23. 오후 4:18:53',
+};
+const question = {
+  update_dt: '2023. 2. 23. 오후 4:18:53',
+};
+const answer = {
+  update_dt: '2023. 2. 23. 오후 4:18:53',
+};
+//
+
 function MyProfile() {
   return (
     <div className={styles.MyProfile_Container}>
@@ -16,13 +31,13 @@ function MyProfile() {
         <a href="http://localhost:3000/mypage">
           <img
             className={styles.user_image}
-            src="https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+            src={users.profileimage}
             alt="My profile"
           />
         </a>
       </div>
       <div className={styles.MyProfile_info}>
-        <h2 className={styles.user_name}>{`One-Punch Man`}</h2>
+        <h2 className={styles.user_name}>{users.name}</h2>
         <div className={styles.user_history}>
           <span>
             <MdCake className={styles.cake_icon} />
