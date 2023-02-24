@@ -19,7 +19,6 @@ repositories {
 }
 
 dependencies {
-	//Spring Boot 기본 값 라이브러리
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -30,11 +29,12 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	//Mapper 관련 의존성 라이브러리
-	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 
 	//Lombok 애너테이션 라이브러리
 	compileOnly 'org.projectlombok:lombok'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	//유효성 검사 라이브러리
@@ -52,6 +52,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	implementation 'com.google.code.gson:gson'
+
 }
 
 tasks.named('test') {
