@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  context-path: /api
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sof
+#    ?serverTimezone=Asia/Seoul
+    username: root
+    password:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: false
+    hibernate:
+      ddl-auto: create
+  logging:
+    level:
+      org.hibernate.SQL: debug
+jwt:
+  secret: kevin1234123412341234123412341234
+  access-token-expiration-minutes: 1200
+  refresh-token-expiration-minutes: 4800
+mail:
+  address:
+    admin: admin@gmail.com

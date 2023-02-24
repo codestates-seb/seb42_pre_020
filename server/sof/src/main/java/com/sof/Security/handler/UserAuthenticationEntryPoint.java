@@ -1,11 +1,11 @@
-package com.sof.Security.handler;
+package com.sof.Security.Handler;
 
 import com.sof.Security.ErrorResponder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.AuthenticationException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +16,15 @@ import java.io.IOException;
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException{
         Exception exception = (Exception) request.getAttribute("exception");
         ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
 
-        logExceptionMessage(authException, exception);
+        logExceptionMessage(authenticationException, exception);
     }
+    private void logExceptionMessage(AuthenticationException authenticationException, Exception exception){
+        String message = exception  != null ? exception.getMessage() : authenticationException.getMessage();
+        log.warn("unauthorized error happened", message);
 
-    private void logExceptionMessage(AuthenticationException authException, Exception exception) {
-        String message = exception != null ? exception.getMessage() : authException.getMessage();
-        log.warn("Unauthorized error happened: {}", message);
     }
 }
