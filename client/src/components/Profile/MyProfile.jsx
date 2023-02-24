@@ -1,5 +1,4 @@
-// import { useState } from 'react'
-
+import default_img from '../../assets/images/default.png';
 import { MdCake } from 'react-icons/md';
 import {
   RiPencilFill,
@@ -14,13 +13,13 @@ const users = {
   name: `One-Punch Man`,
   profileimage:
     'https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
-  create_dt: 'Thu Feb 23 2023 22:02:35 GMT+0900 (한국 표준시)',
+  create_dt: 'Thu Oct 02 2022 12:50:02 GMT+0900 (한국 표준시)',
 };
 const question = {
-  update_dt: 'Thu Jan 10 2023 17:23:21 GMT+0900 (한국 표준시)',
+  create_dt: 'Thu Jan 10 2023 17:23:21 GMT+0900 (한국 표준시)',
 };
 const answer = {
-  update_dt: 'Thu Oct 02 2022 12:50:02 GMT+0900 (한국 표준시)',
+  create_dt: 'Thu Feb 23 2023 22:02:35 GMT+0900 (한국 표준시)',
 };
 //
 
@@ -52,10 +51,10 @@ function MyProfile() {
   return (
     <div className={styles.MyProfile_Container}>
       <div className={styles.MyProfile_image}>
-        <a href="http://localhost:3000/mypage">
+        <a href="/mypage">
           <img
             className={styles.user_image}
-            src={users.profileimage}
+            src={default_img}
             alt="My profile"
           />
         </a>
@@ -69,15 +68,15 @@ function MyProfile() {
           </span>
           <span>
             <RiQuestionnaireFill className={styles.msg_icon} />
-            {`Last question ${elapsedTime(question.update_dt)} ago`}
+            {`Last question ${elapsedTime(question.create_dt)} ago`}
           </span>
           <span>
             <RiMessage2Fill className={styles.msg_icon} />
-            {`Last answer ${elapsedTime(answer.update_dt)} ago`}
+            {`Last answer ${elapsedTime(answer.create_dt)} ago`}
           </span>
         </div>
       </div>
-      <a className={styles.Button} href="http://localhost:3000/editprofile">
+      <a className={styles.Button} href="/editprofile">
         <RiPencilFill className={styles.button_icon} />
         <span className={styles.button_text}>Edit profile</span>
       </a>

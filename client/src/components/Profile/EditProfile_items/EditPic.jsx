@@ -1,10 +1,21 @@
 import { useState } from 'react';
 
+import default_img from '../../../assets/images/default.png';
 import Button from '../../UI/Button/Button';
 
 import styles from './EditPic.module.css';
 
-function EditPic({ openModalHandler, isOpen }) {
+function EditPic({
+  openModalHandler,
+  isOpen,
+  profileimage,
+  userData,
+  setUserData,
+}) {
+  const [preview, setPreview] = useState();
+  function isDefault(imgURL) {
+    return imgURL.length === 0 ? default_img : profileimage;
+  }
   return (
     <div
       className={styles.Edit_image}
@@ -13,7 +24,7 @@ function EditPic({ openModalHandler, isOpen }) {
     >
       <img
         className={styles.user_image}
-        src="https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+        src={isDefault(profileimage)}
         alt="Current"
       />
       <button className={styles.ChangePic_Btn} onClick={openModalHandler}>
@@ -24,14 +35,14 @@ function EditPic({ openModalHandler, isOpen }) {
           <div className={styles.container}>
             <img
               className={styles.preview_image}
-              src="https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+              src={profileimage}
               alt="Preview"
             />
             <div className={styles.orange_button}>
               <Button text="remove" size="large" color="orange" disabled />
             </div>
           </div>
-          <Button text="Uplooad a new image" size="small" block />
+          <Button text="Upload a new image" size="small" block />
           <div className={styles.last_container}>
             <Button
               text="Cancel"

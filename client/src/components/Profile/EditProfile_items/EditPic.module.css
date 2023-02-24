@@ -59,7 +59,7 @@
 .Modal:before {
   border-style: solid;
   border-width: 10px 15px 10px 0;
-  border-color: transparent var(--black-200);
+  border-color: transparent var(--black-400);
   content: '';
   position: absolute;
   top: 35px;
