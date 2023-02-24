@@ -1,89 +1,84 @@
 package com.sof.Users.Controller;
 
-import com.sof.Exception.InvalidPasswordException;
-import com.sof.Exception.UnauthorizedException;
+import com.sof.Respone.MultiResponseDto;
+import com.sof.Respone.SingleResponseDto;
+import com.sof.Users.Dto.UserPostDto;
+import com.sof.Users.Dto.UserResponseDto;
 import com.sof.Users.Entity.UserEntity;
 import com.sof.Users.Mapper.UserMapper;
-import com.sof.Users.Dto.UserDto;
-import com.sof.Users.Repository.UserRepository;
 import com.sof.Users.Service.UserService;
-import com.sof.Users.exception.BusinessLogicException;
-import com.sof.Users.exception.ExceptionCode;
+import lombok.RequiredArgsConstructor;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequiredArgsConstructor //-> final 필드 에대한 생성자 생성해주는 어노테이션
 @RequestMapping("/users")
+@Validated
+@Slf4j
 public class UserController {
+    @Autowired
+    private final UserMapper mapper;
     private final UserService userService;
 
-    private final UserMapper mapper;
-
-    public UserController(UserService userService, UserMapper mapper) {
-        this.userService = userService;
-        this.mapper = mapper;
-    }
 
     //회원가입
     @PostMapping("/signup")
-    public ResponseEntity signup(@Validated @RequestBody UserDto.signup dto) {
-        userService.create(dto);
-
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity postUser(@Valid @RequestBody UserPostDto userPostDto) {
+        log.info("#### POST ####");
+        UserEntity user = mapper.userPostDtoToUser(userPostDto);
+        UserEntity createdUser = userService.createUser(user);
+        UserResponseDto response = mapper.userToUserResponseDto(createdUser);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response),
+                HttpStatus.CREATED);
     }
 
-    //로그인
-    @PostMapping("/login")
-    public ResponseEntity login(@Validated @RequestBody UserDto.login dto) {
-        String accessToken = "bearer " + userService.makeAccessToken(dto);
-        //ID 존재 여부 확인
-        UserEntity user = userService.findByEmail(dto.getEmail());
+    // 회원 정보 전부 출력
+    @GetMapping
+    public ResponseEntity  userResponseDto(Pageable pageable) {
+        // 반환값은 ResponseEntity void 두개만 존재한다고 생각하면 편하다
+        log.info("#### 회원정보 출력 ####");
+        Page<UserEntity> pageUsers = userService.getUsers(pageable);
+        List<UserEntity> users = pageUsers.getContent();
+        List<UserResponseDto> response = mapper.userListToUserResponseDtoList(users);
 
-        if (accessToken == null) {
-            throw new InvalidPasswordException("비밀번호가 틀렸습니다!");
-        } else {
-            UserDto.accessTokenResponse response = mapper.accessTokenToUserResponseDto(user, accessToken);
-
-            return new ResponseEntity(response, HttpStatus.OK);
-        }
+        return new ResponseEntity(
+                new MultiResponseDto<>(response, pageUsers), HttpStatus.OK);
     }
 
-    //회원정보 조회
-    @GetMapping("/profile/{userId}")
-    public ResponseEntity getProfile(@RequestHeader(value = "accessToken") String accessToken) {
-        if (accessToken.equals("not")) {
-            throw new UnauthorizedException("로그인이 필요합니다!");
-        }
-
-        UserEntity user = this.userService.findByAccessToken(accessToken);
-
-        UserDto.response response = this.mapper.userToUserResponseDto(user);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    //개인 회원 profile 요청
+    @GetMapping("/{userId}")
+    public ResponseEntity getUser(@PathVariable("userId") @Positive Long userId) {
+        log.info("#### 회원 정보 단건 조회 ####");
+        UserEntity user = userService.findUser(userId);
+        UserResponseDto userResponseDto = mapper.userToUserResponseDto(user);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(userResponseDto),HttpStatus.OK);
     }
 
-    //회원정보 수정
-    @PatchMapping("/profile/{userId}")
-    public ResponseEntity updateProfile(@RequestHeader(value = "accessToken") String accessToken,
-                                       @RequestBody UserDto.update dto) {
-        if (accessToken.equals("not")) {
-            throw new UnauthorizedException("로그인이 필요합니다!");
-        }
-        UserEntity user = this.userService.findByAccessToken(accessToken);
-        UserEntity updateUser = userService.updateUser(user, dto);
-
-        UserDto.response response = this.mapper.userToUserResponseDto(updateUser);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping("/info")
+    public String getUser(){
+        return  userService.getLoginUser();
     }
 
-    @GetMapping("/get")
-    public ResponseEntity get(@Validated @RequestBody String accessToken) {
-        UserEntity user = userService.findByAccessToken(accessToken);
-
-        return new ResponseEntity(mapper.userToUserResponseDto(user), HttpStatus.OK);
+    // 회원삭제
+    @DeleteMapping("/delete/{user-id}")
+    public ResponseEntity deleteUser(@PathVariable("user-id") @Positive Long userId){
+        log.info("### 유저 DELETE ####");
+        userService.deleteUser(userId);
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 }

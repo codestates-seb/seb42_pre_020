@@ -3,52 +3,67 @@ package com.sof.Exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
-import java.lang.reflect.Field;
+import javax.validation.ConstraintViolation;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+
 
 @Getter
 public class ErrorResponse {
     private int status;
     private String message;
-    private List<FieldError> fieldErrorList;
+    private List<FieldError> fieldErrors;
+    private List<ConstraintViolationError> violationErrors;
 
-    public ErrorResponse(int status, String message) {
+    private ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }
 
-    public ErrorResponse(List<FieldError> fieldErrorList) {
-        this.fieldErrorList = fieldErrorList;
+    private ErrorResponse(final List<FieldError> fieldErrors,
+                          final List<ConstraintViolationError> violationErrors) {
+        this.fieldErrors = fieldErrors;
+        this.violationErrors = violationErrors;
     }
 
-    //BindingResult: 검증 오류가 발생할 경우 오류 내용을 보관
     public static ErrorResponse of(BindingResult bindingResult) {
-        return new ErrorResponse(FieldError.of(bindingResult));
+        return new ErrorResponse(FieldError.of(bindingResult), null);
+    }
+
+    public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
+        return new ErrorResponse(null, ConstraintViolationError.of(violations));
+    }
+
+    public static ErrorResponse of(ExceptionCode exceptionCode) {
+        return new ErrorResponse(exceptionCode.getStatus(), exceptionCode.getMessage());
     }
 
     public static ErrorResponse of(HttpStatus httpStatus) {
         return new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase());
     }
 
+    public static ErrorResponse of(HttpStatus httpStatus, String message) {
+        return new ErrorResponse(httpStatus.value(), message);
+    }
+
     @Getter
     public static class FieldError {
         private String field;
-        private Object rejectedValue; //거절된 값
+        private Object rejectedValue;
         private String reason;
 
-        public FieldError(String field, Object rejectedValue, String reason) {
+        private FieldError(String field, Object rejectedValue, String reason) {
             this.field = field;
             this.rejectedValue = rejectedValue;
             this.reason = reason;
         }
 
-        private static List<FieldError> of(BindingResult bindingResult) {
+        public static List<FieldError> of(BindingResult bindingResult) {
             final List<org.springframework.validation.FieldError> fieldErrors =
                     bindingResult.getFieldErrors();
-
             return fieldErrors.stream()
                     .map(error -> new FieldError(
                             error.getField(),
@@ -59,4 +74,27 @@ public class ErrorResponse {
         }
     }
 
+    @Getter
+    public static class ConstraintViolationError {
+        private String propertyPath;
+        private Object rejectedValue;
+        private String reason;
+
+        private ConstraintViolationError(String propertyPath, Object rejectedValue,
+                                         String reason) {
+            this.propertyPath = propertyPath;
+            this.rejectedValue = rejectedValue;
+            this.reason = reason;
+        }
+
+        public static List<ConstraintViolationError> of(
+                Set<ConstraintViolation<?>> constraintViolations) {
+            return constraintViolations.stream()
+                    .map(constraintViolation -> new ConstraintViolationError(
+                            constraintViolation.getPropertyPath().toString(),
+                            constraintViolation.getInvalidValue().toString(),
+                            constraintViolation.getMessage()
+                    )).collect(Collectors.toList());
+        }
+    }
 }

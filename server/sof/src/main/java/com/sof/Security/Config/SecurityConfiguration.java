@@ -1,100 +1,123 @@
 package com.sof.Security.Config;
 
-import com.sof.Security.Filter.CustomSecurityFilter;
-import com.sof.Security.Filter.VerificationFilter;
+import com.sof.Security.CustomAuthorityUtils;
+import com.sof.Security.Filter.JwtAuthenticationFilter;
+import com.sof.Security.Filter.JwtAuthorizationFilter;
+import com.sof.Security.Handler.UserAuthenticationFailureHandler;
 import com.sof.Security.Jwt.JwtTokenizer;
-import com.sof.Security.handler.*;
-import com.sof.Users.Service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import org.springframework.security.authentication.AuthenticationManager;
 import java.util.Arrays;
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity(debug = true)
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
 
-    private final UserService userService;
+    private final CustomAuthorityUtils authorityUtils;
 
-    public SecurityConfiguration(JwtTokenizer jwtTokenizer, UserService userService) {
+    public SecurityConfiguration(JwtTokenizer jwtTokenizer, CustomAuthorityUtils authorityUtils) {
         this.jwtTokenizer = jwtTokenizer;
-        this.userService = userService;
+        this.authorityUtils = authorityUtils;
     }
+
+   /* @Bean
+    public UserDetailsManager userDetailsService() {
+        UserDetails user =
+                User.withDefaultPasswordEncoder()
+                        .username("kevin@gmail.com")
+                        .password("1111")
+                        .roles("USER")
+                        .build();
+        UserDetails admin =
+                User.withDefaultPasswordEncoder()
+                        .username("admin@gmail.com")
+                        .password("2222")
+                        .roles("ADMIN")
+                        .build();
+        return new InMemoryUserDetailsManager(user, admin);
+    }*/
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                //동일 출처로 들어오는 request만 페이지 렌더링 허용
                 .headers().frameOptions().sameOrigin()
+//                .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 .and()
-                .csrf().disable() //csrf 공격에 대한 설정 = 비활성화
-                .cors()
+                .csrf().disable()//csrf 공격 설정 비활성화
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-        http
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //토큰 기반 인증이라 세션 사용 X
+                .and()
+                .formLogin().disable()
                 .httpBasic().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new UserAuthenticationEntryPoint())
-                .accessDeniedHandler(new UserAccessDeniedHandler())
+                .apply(new CustomFilterConfigurer())
                 .and()
-                //필터 적용
-                .apply(new CustomFilterConfigure())
-                .and()
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll())
-                .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OAuth2SuccessHandler(jwtTokenizer, userService)))
-                //로그아웃 설정
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/");
+                .authorizeHttpRequests()
+//                .antMatchers("/**").permitAll()
+//                .antMatchers("/h2-console/**").permitAll()
+                .anyRequest().permitAll();
+//                );
 
         return http.build();
     }
 
-    public class CustomFilterConfigure extends AbstractHttpConfigurer<CustomFilterConfigure, HttpSecurity> {
-        @Override
-        public void configure(HttpSecurity builder) throws Exception {
-            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
-
-            CustomSecurityFilter jwtAuthenticationFilter = new CustomSecurityFilter(authenticationManager, jwtTokenizer);
-            jwtAuthenticationFilter.setFilterProcessesUrl("/user/login");
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
-
-            VerificationFilter verificationFilter = new VerificationFilter(jwtTokenizer);
-
-            builder.addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(verificationFilter, CustomSecurityFilter.class);
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        //모든 출처에 대해 스크립트기반의 HTTP 통신 허용
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        //파라미터로 지정한 HTTP Method에 대한 HTTP 통신 허용
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        //헤더
-        configuration.setAllowedHeaders(Arrays.asList("*"));
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        //패턴에 해당하는 URL에 해당 CORS 정책 적용
+//        configuration.addAllowedHeader("*");
+//        configuration.setAllowCredentials(true);
+//        configuration.addAllowedOrigin("*");   // 모든 출처(Origin)에 대해 스크립트 기반의 HTTP 통신을 허용하도록 설정한다
+//        configuration.addAllowedMethod("*");  // 모든 파라미터에 HTTP Method에 대한 HTTP 통신을 허용한다.
+
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();   //  CorsConfigurationSource 인터페이스의 구현 클래스인 UrlBasedCorsConfigurationSource 클래스의 객체를 생성한다.
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    public class CustomFilterConfigurer extends AbstractHttpConfigurer<CustomFilterConfigurer, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception {
+            AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
+
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);
+            jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
+
+            JwtAuthorizationFilter jwtAuthorizationFilter = new JwtAuthorizationFilter(jwtTokenizer, authorityUtils);
+
+            builder.addFilter(jwtAuthenticationFilter)
+                    .addFilterAfter(jwtAuthorizationFilter, JwtAuthenticationFilter.class); //인증 과정 후에 인가과정 수행되도록 하기
+        }
     }
 }
