@@ -1,37 +1,15 @@
 package com.sof.Users.Mapper;
 
-import com.sof.Users.Dto.UserDto;
+import com.sof.Users.Dto.*;
 import com.sof.Users.Entity.UserEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    default UserDto.response userToUserResponseDto(UserEntity user){
-        UserDto.response response = new UserDto.response(
-                user.getUserId(),
-                user.getEmail(),
-                user.getName(),
-                user.getProfileImage(),
-                user.getCreateDate()
-        );
-        return response;
-    }
+    UserEntity userPostDtoToUser(UserPostDto userPostDto);
+    UserEntity userPatchDtoToUser(UserPatchDto userPatchDto);
 
-    default UserDto.accessTokenResponse accessTokenToUserResponseDto(UserEntity user, String accessToken) {
-        UserDto.accessTokenResponse response = new UserDto.accessTokenResponse(
-                accessToken,
-                user.getUserId(),
-                user.getEmail(),
-                user.getName(),
-                user.getProfileImage()
-        );
-        return response;
-    }
-
-    default UserDto.owner userToOwner(UserEntity user) {
-        UserDto.owner response = new UserDto.owner(
-                user.getUserId(), user.getName(), user.getProfileImage());
-
-        return response;
-    }
+    UserEntity userLoginDtoToUser(UserLoginDto userLoginDto);
+    //UserEntity userEmailDtoToUser(UserEmailDto userEmailDto);
+    UserResponseDto userToUserResponseDto(UserEntity user);
 }

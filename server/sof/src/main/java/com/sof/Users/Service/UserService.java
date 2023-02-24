@@ -1,147 +1,104 @@
 package com.sof.Users.Service;
 
-import com.sof.Exception.DataNotFoundException;
-import com.sof.Exception.UnauthorizedException;
-import com.sof.Exception.UserExistsException;
-import com.sof.Security.Jwt.JwtTokenizer;
-import com.sof.Users.Dto.UserDto;
+import com.sof.Exception.BusinessLogicException;
+import com.sof.Exception.ExceptionCode;
+import com.sof.Security.CustomAuthorityUtils;
+import com.sof.Users.Dto.UserResponseDto;
 import com.sof.Users.Entity.UserEntity;
+import com.sof.Users.Mapper.UserMapper;
 import com.sof.Users.Repository.UserRepository;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+@Transactional
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final CustomAuthorityUtils authorityUtils;
+    private final UserMapper userMapper;
 
-    private final JwtTokenizer jwtTokenizer;
-
-    private PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-
-    public UserService(UserRepository userRepository, JwtTokenizer jwtTokenizer) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils authorityUtils, UserMapper userMapper) {
         this.userRepository = userRepository;
-        this.jwtTokenizer = jwtTokenizer;
-    }
-
-    public UserEntity create(UserDto.signup dto) {
-        //이미 존재하는 이메일 확인
-        verifyExistsEmail(dto.getEmail());
-
-        UserEntity user = new UserEntity();
-        String encryptedPassword = passwordEncoder.encode(dto.getPassword());
-
-        user.setEmail(dto.getEmail());
-        user.setName(dto.getName());
-        user.setPassword(encryptedPassword);
-        user.setCreateDate(LocalDateTime.now());
-
-        return this.userRepository.save(user);
+        this.passwordEncoder = passwordEncoder;
+        this.authorityUtils = authorityUtils;
+        this.userMapper = userMapper;
     }
 
     public UserEntity createUser(UserEntity user) {
-        return this.userRepository.save(user);
+
+        //등록된 이메일 확인
+        verifyExistsEmail(user.getEmail());
+        //Password 암호화
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
+
+        // DB에 User Role 저장
+//        List<String> roles = authorityUtils.createRoles(user.getEmail());
+//        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
-    //회원가입 시 이미 존재하는 이메일인지 확인 후 예외처리
+    public UserEntity findUser(Long userId) {
+        return findVerifiedUserById(userId);
+    }
+
+    // 전체조회 service
+    public List<UserResponseDto> findAllUsers() {
+        List<UserEntity> userList = userRepository.findAll();
+        List<UserResponseDto> userDtoList = new ArrayList<>();
+        for (UserEntity user : userList){
+            UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
+            userDtoList.add(userResponseDto);
+        }
+        return userDtoList;
+    }
+
+    public void deleteUser(Long userId) {
+        UserEntity user = findVerifiedUserById(userId);
+        verifyUserAuthorization(userId, findUser(user.getUserId()).getUserId());
+
+        userRepository.delete(user);
+    }
+
+    private UserEntity findVerifiedUserById(Long userId) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+        UserEntity foundUser = optionalUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+
+        return foundUser;
+    }
+
+    public void verifyUserAuthorization(Long authorizedUserId, Long tryingUserId) {
+        //user의 권한 확인
+        if (!Objects.equals(authorizedUserId, tryingUserId))
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_USER);
+    }
+
     private void verifyExistsEmail(String email) {
+
         Optional<UserEntity> user = userRepository.findByEmail(email);
+
         if (user.isPresent())
-            throw new UserExistsException("이미 등록된 이메일입니다!");
+            throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
     }
 
-    //회원 정보 수정하기 전 로그인 확인 후 진행
-    public UserEntity updateUser(UserEntity user, UserDto.update dto) {
-        UserDto.login loginDto = new UserDto.login();
-
-        loginDto.setEmail(dto.getEmail());
-        loginDto.setPassword(dto.getPassword());
-
-        //비밀번호가 틀린 경우 예외 출력
-        if(verifyPassword(loginDto)) {
-            throw new UnauthorizedException("사용자 정보가 일치하지 않습니다!");
-        }
-        user.setName(dto.getName());
-
-        return this.userRepository.save(user);
+    public String getLoginUser() {
+        return getUserByToken();
     }
 
-    //ID를 통한 사용자 여부 확인
-    public UserEntity find(Long id) {
-        Optional<UserEntity> findUser = this.userRepository.findById(id);
-
-        //해당 Id를 가진 사용자가 있다면 값 가져옴
-        if(findUser.isPresent()) { return findUser.get(); }
-        //사용자가 없다면 예외 출력
-        else { throw new DataNotFoundException("사용자를 찾을 수 없습니다!"); }
-    }
-
-    //이메일을 통한 사용자 존재여부 확인
-    public UserEntity findByEmail(String email) {
-        Optional<UserEntity> findUser = this.userRepository.findByEmail(email);
-
-        if(findUser.isPresent()) { return findUser.get(); }
-        else { throw new DataNotFoundException("사용자를 찾을 수 없습니다!"); }
-    }
-
-    public UserEntity findByEmailCreate(String email) {
-        Optional<UserEntity> findUser = this.userRepository.findByEmail(email);
-        if(findUser.isPresent()) { return findUser.get(); }
-        else { return null; }
-    }
-
-    //액세스 토큰으로 사용자 찾기
-    public UserEntity findByAccessToken(String AccessToken) {
-        String jwt = AccessToken.replace("bearer ", "");
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-
-        Map<String, Object> claims = jwtTokenizer.getClaims(jwt, base64EncodedSecretKey).getBody();
-
-        String email = (String) claims.get("email");
-        UserEntity user = findByEmail(email);
-
-        return user;
-    }
-
-    //사용자 정보가 등록된 액세스 토큰 생성
-    public String makeAccessToken(UserDto.login dto) {
-        String accessToken = "";
-
-        if (verifyPassword(dto)){
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("email", dto.getEmail());
-            claims.put("userId",dto.getPassword());
-
-            String subject = dto.getEmail();
-
-            Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
-
-            String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
-
-            accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
-
-        }else{
-            accessToken = null;
-        }
-        return accessToken;
-    }
-
-    //사용자 비밀번호에 대한 일치여부 확인
-    public boolean verifyPassword(UserDto.login dto) {
-        String email = dto.getEmail();
-        String password = dto.getPassword();
-        UserEntity user = findByEmail(email);
-
-        if(passwordEncoder.matches(password, user.getPassword())) { return true; }
-
-        return false;
+    public String getUserByToken() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = (String) principal;
+        return username;
     }
 }
