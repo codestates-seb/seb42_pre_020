@@ -12,6 +12,7 @@ const users = {
   name: `One-Punch Man`,
   profileimage:
     'https://images.unsplash.com/photo-1473830394358-91588751b241?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80',
+  // '',
   detail: 'Hello World!',
 };
 //
